@@ -1,1 +1,1 @@
-web: gunicorn nutshell.wsgi:application
+web: gunicorn nutshell.wsgi
