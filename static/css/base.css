@@ -28,4 +28,8 @@
   
 .navbar-toggler {
     border-color: #0dd345;
-  } 
+  }
+
+.categories-list {
+    list-style: none;
+}
