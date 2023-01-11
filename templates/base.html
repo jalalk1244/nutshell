@@ -39,27 +39,48 @@
       </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-blue normal-text-color">
-        <a class="navbar-brand d-lg-none" href="#"><strong class="text-green">Nutshell</strong></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <a class="nav-link d-lg-none" href="#"><i class="fa-solid fa-heart"></i></a>
+        <a class="nav-link d-lg-none" href="#"><i class="fa-solid fa-user"></i></a>
+        <a class="nav-link d-lg-none" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto d-lg-flex justify-content-around w-100">
+              <li class="nav-item mx-5 d-lg-none">
+                <a class="nav-link " href="#">Itme 1</a>
+              </li>
+              <li class="nav-item mx-5 d-lg-none">
+                <a class="nav-link " href="#">Item 2</a>
+              </li>
+              <li class="nav-item mx-5 d-lg-none">
+                <a class="nav-link " href="#">Itme 3</a>
+              </li>
+
                 <div class="li-items d-lg-flex">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Account</a>
+                    <form class="d-flex">
+                      <div class="input-group">
+                        <input type="text" class="form-control h-100" placeholder="Search for a Product">
+                        <div class="input-group-append">
+                          <button class="btn btn-light" type="submit">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+
+                    <li class="nav-item mx-5 d-none d-lg-block">
+                        <a class="nav-link " href="#"><i class="fa-solid fa-user"></i></a>
                     </li>
                 </div>
                 <a class="d-none d-lg-block navbar-brand" href="#"><strong class="text-green">Nutshell</strong></a>
                 <div class="li-items d-lg-flex">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cart</a>
+                    <li class="nav-item mx-5 d-none d-lg-block">
+                        <a class="nav-link " href="#"><i class="fa-solid fa-cart-shopping"></i></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Wishlist</a>
+                    <li class="nav-item mx-5 d-none d-lg-block">
+                        <a class="nav-link " href="#"><i class="fa-solid fa-heart"></i></a>
                     </li>
                 </div>
             </ul>
