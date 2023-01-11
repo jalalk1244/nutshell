@@ -33,3 +33,7 @@
 .categories-list {
     list-style: none;
 }
+
+.nav-link:hover i {
+    color: #0dd345;
+}
