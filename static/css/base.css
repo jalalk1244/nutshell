@@ -58,11 +58,22 @@ nav a,
     color: #0dd345;
 }
 
+/* -------------------------------------- landing section */
+.landing-section-image {
+    max-width: 90vw;
+    margin: 1.5rem 0;
+}
+
 /* -------------------------------------- Categories section */
 .categories-section img {
     height: 100px;
     width: 100px;
     border-radius: 50%;
+}
+
+.categories-section img:hover {
+    height: 120px;
+    width: 120px;
 }
 
 
