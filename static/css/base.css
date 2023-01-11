@@ -47,3 +47,9 @@
 .nav-link:hover i {
     color: #0dd345;
 }
+
+
+/* -------------------------------------- Footer */
+.footer-socials {
+    font-size: 25px;
+}
