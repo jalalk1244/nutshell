@@ -1,7 +1,7 @@
 
 
 /* -------------------------------------- Colors */
-.text-white, a {
+.text-white {
     color: #ffffff !important;
 }
 
@@ -35,6 +35,12 @@
     border-color: #0dd345 !important;
 }
 
+nav a,
+.bg-blue a, 
+.bg-sky-blue a {
+    color: white;
+}
+
 /* -------------------------------------- Navbar */
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(13, 211, 69, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
@@ -50,6 +56,13 @@
 
 .nav-link:hover i {
     color: #0dd345;
+}
+
+/* -------------------------------------- Categories section */
+.categories-section img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
 }
 
 
