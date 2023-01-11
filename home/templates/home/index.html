@@ -1,1 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container bg-creamy">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h1>Have a Craving?</h1>
+        <h2>Go Nuts!</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, veritatis laboriosam cumque ducimus sapiente iure.
+          Recusandae iure optio explicabo repudiandae excepturi iste, cupiditate tempora pariatur, amet, sequi nulla laboriosam
+          consequuntur?</p>
+          <button class="btn-green">Shop Now</button>
+      </div>
+      <div class="col-12 col-md-6"> <img src="{% static 'media/landing_section.jpg' %}" alt="Nuts"> </div>
+    </div>
+  </section>
+{% endblock %}
