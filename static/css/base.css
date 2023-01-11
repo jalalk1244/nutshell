@@ -1,0 +1,22 @@
+
+
+/* -------------------------------------- Colors */
+.text-white, a {
+    color: #ffffff !important;
+}
+
+.normal-text-color {
+    color: #e9e7f9;
+}
+
+.text-green {
+    color: #0dd345 !important;
+}
+
+.bg-green {
+    background-color: #0dd345;
+}
+
+.bg-blue {
+    background-color: #35365d;
+}
