@@ -4,6 +4,10 @@ from django.db import models
 
 
 class Category(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
     name = models.CharField(max_length=200)
     slug = models.SlugField(null=False, unique=True)
 
@@ -12,8 +16,16 @@ class Category(models.Model):
 
 
 class Subcategory(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Subcategories'
+
     name = models.CharField(max_length=200)
     slug = models.SlugField(null=False, unique=True)
+    parent_category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
