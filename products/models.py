@@ -23,8 +23,8 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL)
-    sub_category = models.ForeignKey('Category', on_delete=models.SET_NULL)
+    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
+    sub_category = models.ForeignKey('Subcategory', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
