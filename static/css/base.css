@@ -76,6 +76,23 @@ nav a,
     width: 120px;
 }
 
+/* -------------------------------------- Products page */
+.btn-outline-green {
+    color: black !important;
+    border-color: #0dd345 !important;
+}
+
+.btn-outline-green:hover {
+    color: #fff;
+    background-color: #0dd345;
+    border-color: #0dd345;
+}
+
+.subcategories li {
+    border: none;
+    background: none;
+}
+
 
 /* -------------------------------------- Footer */
 .footer-socials {

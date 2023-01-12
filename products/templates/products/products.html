@@ -3,5 +3,31 @@
 
 
 {% block content %}
-    <h1>Products</h1>
+<section class="container-fluid bg-creamy">
+    <div class="row">
+        <div class="col">
+            <h2><u>Products</u></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mx-auto text-center">
+           <h3>{{ category.name }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <ul class="list-group list-group-horizontal subcategories">
+                {% for s in subcategories %}
+                <li class="list-group-item">
+                    <a class="btn btn-outline-green" href="{% url 'products' %}?category={{ category }}&subcategory={{ s.slug }}">
+                        {{ s.name }}
+                    </a>
+                </li>
+                {% endfor %}
+              </ul>
+        </div>
+    </div>
+  </section>
 {% endblock %}
+
+

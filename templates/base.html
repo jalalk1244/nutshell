@@ -39,7 +39,7 @@
       </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg fixed-top bg-blue normal-text-color">
+        <nav class="navbar navbar-expand-lg bg-blue normal-text-color">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -51,16 +51,16 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto d-lg-flex justify-content-around w-100">
               <li class="nav-item d-lg-none">
-                <a class="nav-link " href="#">NUTS</a>
+                <a class="nav-link " href="{% url 'products' %}?category=nuts">NUTS</a>
               </li>
               <li class="nav-item d-lg-none">
-                <a class="nav-link " href="#">ORGANIC PRODUCTS</a>
+                <a class="nav-link " href="{% url 'products' %}?category=organic_products">ORGANIC PRODUCTS</a>
               </li>
               <li class="nav-item d-lg-none">
-                <a class="nav-link " href="#">DRY FRUITS</a>
+                <a class="nav-link " href="{% url 'products' %}?category=dry_fruits">DRY FRUITS</a>
               </li>
               <li class="nav-item d-lg-none">
-                <a class="nav-link " href="#">SEEDS</a>
+                <a class="nav-link " href="{% url 'products' %}?category=seeds">SEEDS</a>
               </li>
     
               <div class="li-items d-lg-flex">
@@ -105,16 +105,16 @@
             <div class="col">
               <ul class="list-group list-group-horizontal justify-content-center categories-list">
                 <li class="nav-item mx-3">
-                  <a class="nav-link " href="#">NUTS</a>
+                  <a class="nav-link " href="{% url 'products' %}?category=nuts">NUTS</a>
                 </li>
                 <li class="nav-item mx-3">
-                  <a class="nav-link " href="#">ORGANIC PRODUCTS</a>
+                  <a class="nav-link " href="{% url 'products' %}?category=organic_product">ORGANIC PRODUCTS</a>
                 </li>
                 <li class="nav-item mx-3">
-                  <a class="nav-link " href="#">DRY FRUITS</a>
+                  <a class="nav-link " href="{% url 'products' %}?category=dry_fruits">DRY FRUITS</a>
                 </li>
                 <li class="nav-item mx-3">
-                  <a class="nav-link " href="#">SEEDS</a>
+                  <a class="nav-link " href="{% url 'products' %}?category=seeds">SEEDS</a>
                 </li>
               </ul </div>
             </div>
