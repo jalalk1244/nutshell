@@ -14,3 +14,17 @@ class Category(models.Model):
 class Subcategory(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(null=False, unique=True)
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    sku = models.CharField(max_length=254, null=True, blank=True)
+    slug = models.SlugField(null=False, unique=True)
+    image = models.ImageField(null=True, blank=True)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL)
+    sub_category = models.ForeignKey('Category', on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
