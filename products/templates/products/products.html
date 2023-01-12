@@ -30,6 +30,19 @@
   </section>
   <section class="container-fluid my-3">
     <div class="row">
+        <div class="col d-flex justify-content-start">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Sort products
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{% url 'products' %}?sort=l2h">Price low to high</a>
+                  <a class="dropdown-item" href="{% url 'products' %}?sort=h2l">Price High to low</a>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row">
         {% for product in products %}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-stretch my-3">
             <div class="card product-card">
