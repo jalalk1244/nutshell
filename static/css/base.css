@@ -58,6 +58,10 @@ nav a,
     color: #0dd345;
 }
 
+.account-dropdown a {
+    color: black;
+}
+
 /* -------------------------------------- landing section */
 .landing-section-image {
     max-width: 90vw;
@@ -103,3 +107,13 @@ img {
 .footer-socials {
     font-size: 25px;
 }
+
+/* -------------------------------------- Breakpoints */
+
+/* Medium */
+@media screen and (max-width: 992px) {
+    .dropdown-menu {
+        right: 0;
+        left: inherit;
+    }
+  }
