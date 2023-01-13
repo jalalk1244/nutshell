@@ -3,12 +3,12 @@ from django.db.models import Q
 from .models import Product, Category, Subcategory
 
 
-
 # Create your views here.
 def products(request):
     '''View for rendering the products'''
     products = Product.objects.all()
     category = None
+    subcategory = None
     sort = None
     sort_by = 'sku'
     subcategories = []
@@ -20,7 +20,8 @@ def products(request):
                 sort_by = 'price'
             else:
                 sort_by = '-price'
-        products = Product.objects.all().order_by(sort_by)
+            if 'category' not in request.GET:
+                products = Product.objects.all().order_by(sort_by)
 
         if 'category' in request.GET:
             category = request.GET['category']
@@ -41,6 +42,7 @@ def products(request):
     context = {
         'products': products,
         'category': category,
+        'subcategory': subcategory,
         'subcategories': subcategories,
     }
     return render(request, 'products/products.html', context)
