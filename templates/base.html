@@ -64,9 +64,9 @@
               </li>
     
               <div class="li-items d-lg-flex">
-                <form class="d-flex">
+                <form class="d-flex" action="{% url 'products' %}">
                   <div class="input-group">
-                    <input type="text" class="form-control h-100" id="search" placeholder="Search for a Product">
+                    <input type="text" name="q" class="form-control h-100" id="search" placeholder="Search for a Product">
                     <div class="input-group-append">
                       <button class="btn btn-light" type="submit">
                         <i class="fa fa-search"></i>
@@ -88,7 +88,7 @@
                   <a class="nav-link" title="Account" href="#"><i class="fa-solid fa-user"></i></a>
                 </li>
               </div>
-              <a class="d-none d-lg-block navbar-brand" href="#"><strong class="text-green">Nutshell</strong></a>
+              <a class="d-none d-lg-block navbar-brand" href="{% url 'home' %}"><strong class="text-green">Nutshell</strong></a>
               <div class="li-items d-lg-flex">
                 <li class="nav-item mx-5 d-none d-lg-block">
                   <a class="nav-link" title="Cart" href="#"><i class="fa-solid fa-cart-shopping"></i></a>

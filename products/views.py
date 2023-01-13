@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Product, Category, Subcategory
+
 
 
 # Create your views here.
@@ -30,6 +32,11 @@ def products(request):
                 subcategory = request.GET['subcategory']
                 products = Product.objects.filter(
                     sub_category__slug=subcategory).order_by(sort_by)
+
+        if 'q' in request.GET:
+            q = request.GET['q']
+            products = Product.objects.filter(
+                Q(name__icontains=q) | Q(description__icontains=q))
 
     context = {
         'products': products,
