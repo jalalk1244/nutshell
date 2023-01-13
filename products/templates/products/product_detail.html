@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <section class="container bg-creamy py-1">
+    <div class="row my-5">
+        <div class="col-12 col-md-6">
+            {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ prodcut.name }}">
+                {% else %}
+                    <img src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
+                {% endif %}
+        </div>
+        <div class="col-12 col-md-6">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }}</p>
+            <p>
+                {{ product.description }}
+            </p>
+            <button class="btn btn-green">Add to bag</button>
+        </div>
+    </div>
+  </section>
+{% endblock %}
