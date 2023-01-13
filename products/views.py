@@ -42,9 +42,11 @@ def products(request):
 def product_detail(request, product_id):
     '''View the product details'''
     product = get_object_or_404(Product, pk=product_id)
+    related_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
 
     context = {
         'product': product,
+        'related_products': related_products,
     }
 
     return render(request, 'products/product_detail.html', context)
