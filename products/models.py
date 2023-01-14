@@ -1,6 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+STARS = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5'),
+)
 
 
 class Category(models.Model):
@@ -40,3 +48,15 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductRating(models.Model):
+    prodcut = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    title = models.CharField(max_length=60, null=False, blank=False)
+    rating = models.CharField(choices=STARS, max_length=150)
+    comment = models.TextField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
