@@ -63,3 +63,11 @@ class ProductRating(models.Model):
 
     def get_review_rating(self):
         return self.review_rating
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    wished_product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.wished_product.name

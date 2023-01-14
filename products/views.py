@@ -77,3 +77,9 @@ def product_detail(request, product_id):
     }
 
     return render(request, 'products/product_detail.html', context)
+
+
+def view_wishlist(request):
+    '''A view to add products to the wishlist'''
+
+    return render(request, 'products/wishlist.html')
