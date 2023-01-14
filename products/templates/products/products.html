@@ -54,7 +54,7 @@
             <div class="card product-card">
                 <a href="{% url 'product_detail' product.id %}">
                 {% if product.image %}
-                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ prodcut.name }}">
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ prodcut.name }}">
                 {% else %}
                     <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
                 {% endif %}
