@@ -31,7 +31,15 @@
                 {{ product.description }}
             </p>
             <a href="#" class="btn btn-green">Add to bag</a>
-            <a href="{% url 'add_to_wishlist' product.id %}" title="Remove" class="btn wishlist-btn"><i class="fa-regular fa-heart"></i></a>
+            {% if is_wished_product == 0 %}
+                <a href="{% url 'add_to_wishlist' product.id %}" title="Add to wishlist" class="btn wishlist-btn">
+                    <i class="fa-regular fa-heart"></i>
+                </a>
+            {% else %}
+                <a href="{% url 'remove_from_wishlist' product.id %}" title="Remove from wishlist" class="btn wishlist-btn">
+                    <i class="fa-solid fa-heart"></i>
+                </a>
+            {% endif %}
         </div>
     </div>
   </section>

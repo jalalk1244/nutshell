@@ -42,7 +42,7 @@
                             <a class="btn btn-green my-3" href="#">
                                 Add to cart
                             </a>
-                            <a href="#" title="Remove" class="btn wishlist-btn"><i class="fa-regular fa-trash-can"></i></a>
+                            <a href="{% url 'remove_from_wishlist' obj.wished_product.id %}" title="Remove from wishlist" class="btn wishlist-btn"><i class="fa-regular fa-trash-can"></i></a>
                         </div>
                     </div>
                 </div>

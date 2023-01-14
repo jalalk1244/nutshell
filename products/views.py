@@ -57,6 +57,9 @@ def product_detail(request, product_id):
     product_review = ProductRating.objects.filter(product=product).order_by('-comment')
     product_ratings = ProductRating.objects.filter(product=product)
     avg = None
+    is_wished_product = len(WishList.objects.filter(Q(user=request.user) & Q(wished_product=product)))
+    
+    print(is_wished_product)
 
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=product_id)
@@ -84,6 +87,7 @@ def product_detail(request, product_id):
         'product_ratings': product_ratings,
         'avg': avg,
         'star_range': range(avg),
+        'is_wished_product': is_wished_product,
     }
 
     return render(request, 'products/product_detail.html', context)
@@ -109,5 +113,18 @@ def add_to_wishlist(request, product_id):
     wished_item, created = WishList.objects.get_or_create(
         wished_product=product,
         user=request.user,)
+
+    return redirect('product_detail', product_id=product.id)
+
+
+@login_required
+def remove_from_wishlist(request, product_id):
+    '''A view to remove products from the wishlist'''
+
+    product = get_object_or_404(Product, pk=product_id)
+    wished_item, created = WishList.objects.get_or_create(
+        wished_product=product,
+        user=request.user,)
+    wished_item.delete()
 
     return redirect('product_detail', product_id=product.id)
