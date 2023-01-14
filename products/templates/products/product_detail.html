@@ -27,6 +27,7 @@
   <section class="container-fluid my-3">
     <h3>Customer Reviews</h3>
     <div class="row justify-content-center">
+        {% if user.is_authenticated %}
         <div class="col-12 col-md-6">
             <h5>Add your review of the product</h5>
             <form action="{% url 'product_detail' product.id %}" method="POST">
@@ -37,6 +38,9 @@
                 <button class="btn btn-green" type="submit">Submit</button>
             </form>
         </div>
+        {% else %}
+        <p><a class="text-green" href="{% url 'account_login' %}">Login</a> to write a review on the product</p>
+        {% endif %}
     </div>
   </section>
 

@@ -51,12 +51,15 @@ class Product(models.Model):
 
 
 class ProductRating(models.Model):
-    prodcut = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     title = models.CharField(max_length=60, null=False, blank=False)
-    rating = models.CharField(choices=STARS, max_length=150)
+    rating = models.IntegerField(choices=STARS)
     comment = models.TextField(null=True, blank=True)
     date_added = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+    def get_review_rating(self):
+        return self.review_rating
