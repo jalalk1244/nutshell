@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Product, Category, Subcategory, ProductRating
+from .models import Product, Category, Subcategory, ProductRating, WishList
 from .forms import ReviewForm
 
 
@@ -79,7 +80,19 @@ def product_detail(request, product_id):
     return render(request, 'products/product_detail.html', context)
 
 
+@login_required
 def view_wishlist(request):
-    '''A view to add products to the wishlist'''
+    '''A view to view products of the wishlist'''
 
     return render(request, 'products/wishlist.html')
+
+
+def add_to_wishlist(request, product_id):
+    '''A view to add products to the wishlist'''
+
+    product = get_object_or_404(Product, pk=product_id)
+    wished_item, created = WishList.objects.get_or_create(
+        wished_product=product,
+        user=request.user,)
+
+    return redirect('product_detail', product_id=product.id)

@@ -6,7 +6,7 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
-    <section class="container bg-creamy py-1">
+    <section class="container bg-creamy py-1 my-3">
     <div class="row my-5">
         <div class="col-12 col-md-6">
             {% if product.image %}
@@ -17,16 +17,43 @@
         </div>
         <div class="col-12 col-md-6">
             <h3>{{ product.name }}</h3>
-            <p>{{ product.price }}</p>
+            <p>${{ product.price }}</p>
             <p>
                 {{ product.description }}
             </p>
-            <button class="btn btn-green">Add to bag</button>
+            <a href="#" class="btn btn-green">Add to bag</a>
+            <a href="{% url 'add_to_wishlist' product.id %}" title="Remove" class="btn wishlist-btn"><i class="fa-regular fa-heart"></i></a>
         </div>
     </div>
   </section>
   <section class="container-fluid my-3">
-    <h3>Customer Reviews</h3>
+    <h1>You may also like:</h1>
+    <div class="row">
+        {% for product in related_products %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-stretch my-3">
+            <div class="card product-card">
+                <a href="{% url 'product_detail' product.id %}">
+                {% if product.image %}
+                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ prodcut.name }}">
+                {% else %}
+                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
+                {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }} <br> ${{ product.price }}</h5>
+                    <div>
+                        <p class="card-text">This is a test for the products cards</p>
+                    </div>
+                    <a class="btn btn-green my-3" href="#">Add to cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  </section>
+
+  <section class="container-fluid my-3">
+    <h3 class="font-weight-bold">Customer Reviews</h3>
     {% for rating in product_ratings %}
     <div class="row">
         <div class="col-12">
@@ -59,32 +86,6 @@
         {% else %}
         <p><a class="text-green" href="{% url 'account_login' %}">Login</a> to write a review on the product</p>
         {% endif %}
-    </div>
-  </section>
-
-  <section class="container-fluid my-3">
-    <h1>You may also like:</h1>
-    <div class="row">
-        {% for product in related_products %}
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-stretch my-3">
-            <div class="card product-card">
-                <a href="{% url 'product_detail' product.id %}">
-                {% if product.image %}
-                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ prodcut.name }}">
-                {% else %}
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
-                {% endif %}
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }} - {{ product.price }}$</h5>
-                    <div>
-                        <p class="card-text">This is a test for the products cards</p>
-                    </div>
-                    <a class="btn btn-green my-3" href="#">Add to cart</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
     </div>
   </section>
 {% endblock %}
