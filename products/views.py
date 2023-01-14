@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.db.models import Q
-from .models import Product, Category, Subcategory
+from .models import Product, Category, Subcategory, ProductRating
 from .forms import ReviewForm
 
 
@@ -53,6 +53,7 @@ def product_detail(request, product_id):
     '''View the product details'''
     product = get_object_or_404(Product, pk=product_id)
     related_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
+    product_ratings = ProductRating.objects.all()
 
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=product_id)
@@ -71,6 +72,8 @@ def product_detail(request, product_id):
         'product': product,
         'related_products': related_products,
         'product_rating_form': product_rating_form,
+        'product_ratings': product_ratings,
+        'range': range(5),
     }
 
     return render(request, 'products/product_detail.html', context)

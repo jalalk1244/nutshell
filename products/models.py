@@ -56,7 +56,7 @@ class ProductRating(models.Model):
     title = models.CharField(max_length=60, null=False, blank=False)
     rating = models.IntegerField(choices=STARS)
     comment = models.TextField(null=True, blank=True)
-    date_added = models.DateTimeField(auto_now=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
