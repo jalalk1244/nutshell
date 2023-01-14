@@ -60,9 +60,9 @@
                 {% endif %}
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.name }} - {{ product.price }}$</h5>
+                    <h5 class="card-title">{{ product.name }} - ${{ product.price }}</h5>
                     <div>
-                        <p class="card-text">This is a test for the products cards</p>
+                        <p class="card-text">{{ product.description }}</p>
                     </div>
                     <a class="btn btn-green my-3" href="#">Add to cart</a>
                 </div>

@@ -83,10 +83,16 @@ def product_detail(request, product_id):
 @login_required
 def view_wishlist(request):
     '''A view to view products of the wishlist'''
+    wishlist_of_user = WishList.objects.filter(user=request.user)
 
-    return render(request, 'products/wishlist.html')
+    context = {
+        'wishlist_of_user': wishlist_of_user,
+    }
+
+    return render(request, 'products/wishlist.html', context)
 
 
+@login_required
 def add_to_wishlist(request, product_id):
     '''A view to add products to the wishlist'''
 

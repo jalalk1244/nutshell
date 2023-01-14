@@ -44,7 +44,7 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="nav-link d-lg-none" title="Wishlist" href="#"><i class="fa-solid fa-heart"></i></a>
+          <a class="nav-link d-lg-none" title="Wishlist" href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
           <a class="nav-link d-lg-none" title="Cart" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
 
           <!-- <a class="nav-link d-lg-none" title="Account" href="#"><i class="fa-solid fa-user"></i></a> -->
@@ -127,7 +127,7 @@
                   <a class="nav-link" title="Cart" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
                 </li>
                 <li class="nav-item mx-5 d-none d-lg-block">
-                  <a class="nav-link" title="Wishlist" href="#"><i class="fa-solid fa-heart"></i></a>
+                  <a class="nav-link" title="Wishlist" href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
                 </li>
               </div>
             </ul>

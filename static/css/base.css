@@ -109,6 +109,11 @@ img {
     border-color: #1b91bd !important;
 }
 
+.wishlist-icon {
+    font-size: 55px;
+    color: #0dd345;
+}
+
 /* -------------------------------------- Footer */
 .footer-socials {
     font-size: 25px;
