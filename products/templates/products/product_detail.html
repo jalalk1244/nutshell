@@ -18,6 +18,15 @@
         <div class="col-12 col-md-6">
             <h3>{{ product.name }}</h3>
             <p>${{ product.price }}</p>
+            <div class="d-flex flex-row user-ratings mb-3 align-items-center">
+                <div class="ratings">
+                    {% for star in star_range %}
+                        <i class="fa fa-star"></i>
+                    {% endfor %}
+                </div>
+                <h6 class="text-muted ml-1">{{ avg }}/5</h6>
+                <a href="#write-review" class="btn btn-light-blue"><i class="fa-solid fa-pen"></i> Write a review</a>
+            </div>
             <p>
                 {{ product.description }}
             </p>
@@ -71,7 +80,7 @@
     </div>
     <hr class="text-green">
     {% endfor %}
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="write-review">
         {% if user.is_authenticated %}
         <div class="col-12 col-md-6">
             <h5>Add your review of the product</h5>

@@ -51,7 +51,7 @@ class Product(models.Model):
 
 
 class ProductRating(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews', null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     title = models.CharField(max_length=60, null=False, blank=False)
     rating = models.IntegerField(choices=STARS)

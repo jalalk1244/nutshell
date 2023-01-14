@@ -103,6 +103,10 @@ img {
     object-fit: cover;
 }
 
+.user-ratings h6{
+    margin-top:2px;
+}
+
 .wishlist-btn {
     color: #fff !important;
     background-color: #1b91bd !important;

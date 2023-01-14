@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Avg
 from .models import Product, Category, Subcategory, ProductRating, WishList
 from .forms import ReviewForm
 
@@ -54,7 +54,9 @@ def product_detail(request, product_id):
     '''View the product details'''
     product = get_object_or_404(Product, pk=product_id)
     related_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
-    product_ratings = ProductRating.objects.all()
+    product_review = ProductRating.objects.filter(product=product).order_by('-comment')
+    product_ratings = ProductRating.objects.filter(product=product)
+    avg = None
 
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=product_id)
@@ -69,12 +71,19 @@ def product_detail(request, product_id):
     else:
         product_rating_form = ReviewForm()
 
+    average_rating = product_review.aggregate(Avg('rating'))['rating__avg']
+    if avg is not None:
+        avg = round(average_rating)
+    else:
+        avg = 0
+
     context = {
         'product': product,
         'related_products': related_products,
         'product_rating_form': product_rating_form,
         'product_ratings': product_ratings,
-        'range': range(5),
+        'avg': avg,
+        'star_range': range(avg),
     }
 
     return render(request, 'products/product_detail.html', context)
