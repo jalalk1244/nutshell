@@ -30,15 +30,20 @@
             <p>
                 {{ product.description }}
             </p>
-            <a href="#" class="btn btn-green">Add to bag</a>
-            {% if is_wished_product == 0 %}
-                <a href="{% url 'add_to_wishlist' product.id %}" title="Add to wishlist" class="btn wishlist-btn">
-                    <i class="fa-regular fa-heart"></i>
-                </a>
+            {% if request.user.is_superuser %}
+                    <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
+                    <a class="btn wishlist-btn my-3" title="Delete Product" href="#"><i class="fa-regular fa-trash-can"></i></a>
             {% else %}
-                <a href="{% url 'remove_from_wishlist' product.id %}" title="Remove from wishlist" class="btn wishlist-btn">
-                    <i class="fa-solid fa-heart"></i>
-                </a>
+                    <a class="btn btn-green my-3" href="#">Add to cart</a>
+                    {% if is_wished_product == 0 %}
+                        <a href="{% url 'add_to_wishlist' product.id %}" title="Add to wishlist" class="btn wishlist-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'remove_from_wishlist' product.id %}" title="Remove from wishlist" class="btn wishlist-btn">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                    {% endif %}
             {% endif %}
         </div>
     </div>
@@ -61,7 +66,12 @@
                     <div>
                         <p class="card-text">This is a test for the products cards</p>
                     </div>
-                    <a class="btn btn-green my-3" href="#">Add to cart</a>
+                    {% if request.user.is_superuser %}
+                        <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
+                        <a class="btn wishlist-btn my-3" title="Delete Product" href="#"><i class="fa-regular fa-trash-can"></i></a>
+                    {% else %}
+                        <a class="btn btn-green my-3" href="#">Add to cart</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -64,7 +64,12 @@
                     <div>
                         <p class="card-text">{{ product.description }}</p>
                     </div>
+                    {% if request.user.is_superuser %}
+                    <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
+                    <a class="btn wishlist-btn my-3" title="Delete Product" href="#"><i class="fa-regular fa-trash-can"></i></a>
+                    {% else %}
                     <a class="btn btn-green my-3" href="#">Add to cart</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
