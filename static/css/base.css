@@ -118,6 +118,11 @@ img {
     color: #0dd345;
 }
 
+/* -------------------------------------- Accounts */
+.h-70vh {
+    height: 70vh;
+}
+
 /* -------------------------------------- Footer */
 .footer-socials {
     font-size: 25px;
