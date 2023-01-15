@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Avg
 from .models import Product, Category, Subcategory, ProductRating, WishList
-from .forms import ReviewForm
+from .forms import ReviewForm, ProductForm
 
 
 # Create your views here.
@@ -138,3 +138,10 @@ def remove_from_wishlist(request, product_id):
         messages.success(request, 'Product removed from your wishlist')
 
     return redirect('product_detail', product_id=product.id)
+
+
+@login_required
+def add_new_product(request):
+    '''A view to add new products to the store'''
+
+    return render(request, 'products/add_product.html')
