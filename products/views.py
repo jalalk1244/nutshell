@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q, Avg
 from .models import Product, Category, Subcategory, ProductRating, WishList
 from .forms import ReviewForm
@@ -70,9 +71,10 @@ def product_detail(request, product_id):
             product_rating_form.instance.user = request.user
             product_rating_form.instance.product = product
             product_rating_form.save()
+            messages.success(request, 'Product review added Successfuly')
             return redirect(reverse('product_detail', args=[product_id]))
         else:
-            pass  # add messages here
+            messages.error(request, 'Somthing went wrong, please try again!')
     else:
         product_rating_form = ReviewForm()
 
@@ -111,10 +113,14 @@ def add_to_wishlist(request, product_id):
     '''A view to add products to the wishlist'''
 
     product = get_object_or_404(Product, pk=product_id)
-    if 'login' not in request.GET:
-        wished_item, created = WishList.objects.get_or_create(
-            wished_product=product,
-            user=request.user,)
+    if product:
+        if request.user.is_authenticated:
+            wished_item, created = WishList.objects.get_or_create(
+                wished_product=product,
+                user=request.user,)
+            messages.success(request, 'Product added to your wishlist')
+        else:
+            messages.error(request, 'Login to add products to your wishlist')
 
     return redirect('product_detail', product_id=product.id)
 
@@ -124,9 +130,11 @@ def remove_from_wishlist(request, product_id):
     '''A view to remove products from the wishlist'''
 
     product = get_object_or_404(Product, pk=product_id)
-    wished_item, created = WishList.objects.get_or_create(
-        wished_product=product,
-        user=request.user,)
-    wished_item.delete()
+    if product:
+        wished_item, created = WishList.objects.get_or_create(
+            wished_product=product,
+            user=request.user,)
+        wished_item.delete()
+        messages.success(request, 'Product removed from your wishlist')
 
     return redirect('product_detail', product_id=product.id)

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+
+from django.contrib import messages
+
 import dj_database_url
 if os.path.isfile('env.py'):
     import env
@@ -65,6 +68,14 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'nutshell.urls'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MESSAGE_TAGS = {
+        messages.DEBUG: 'secondary',
+        messages.INFO: 'info',
+        messages.SUCCESS: 'success',
+        messages.WARNING: 'warning',
+        messages.ERROR: 'danger',
+ }
 
 TEMPLATES = [
     {
