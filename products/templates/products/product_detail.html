@@ -32,7 +32,33 @@
             </p>
             {% if request.user.is_superuser %}
                     <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
-                    <a class="btn wishlist-btn my-3" title="Delete Product" href="#"><i class="fa-regular fa-trash-can"></i></a>
+                    
+                    <!-- Button trigger modal -->
+                    <button title="Delete Product" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ product.id }}">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body" id="myinput">
+                            <p>Are you sure you want to delte this product?</p>
+                            <p>This action <strong>cannot</strong> be undone!</p>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <a href="{% url 'delete_product' product.id %}" class="btn btn-primary">Yes</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
             {% else %}
                     <a class="btn btn-green my-3" href="#">Add to cart</a>
                     {% if is_wished_product == 0 %}
@@ -68,7 +94,34 @@
                     </div>
                     {% if request.user.is_superuser %}
                         <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
-                        <a class="btn wishlist-btn my-3" title="Delete Product" href="#"><i class="fa-regular fa-trash-can"></i></a>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" title="Delete Product" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ product.id }}">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body" id="myinput">
+                                <p>Are you sure you want to delte this product?</p>
+                                <p>This action <strong>cannot</strong> be undone!</p>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <a href="{% url 'delete_product' product.id %}" class="btn btn-primary">Yes</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
                     {% else %}
                         <a class="btn btn-green my-3" href="#">Add to cart</a>
                     {% endif %}

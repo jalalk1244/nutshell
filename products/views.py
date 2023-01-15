@@ -151,7 +151,7 @@ def add_new_product(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save()
-            messages.success(request, 'Successfully added product!')
+            messages.success(request, 'Successfully added product')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
             messages.error(request, 'Failed to add product. Please ensure the form is valid.')
@@ -167,7 +167,7 @@ def add_new_product(request):
 
 @login_required
 def edit_product(request, product_id):
-    '''A view to add new products to the store'''
+    '''A view to edit products of the store'''
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
@@ -177,10 +177,10 @@ def edit_product(request, product_id):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save()
-            messages.success(request, 'Successfully added product!')
+            messages.success(request, 'Successfully edited product')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
+            messages.error(request, 'Failed to edit product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
 
@@ -189,3 +189,17 @@ def edit_product(request, product_id):
     }
 
     return render(request, 'products/edit_product.html', context)
+
+
+@login_required
+def delete_product(request, product_id):
+    '''A view to delete products of the store'''
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    messages.success(request, 'Product successfuly deleted')
+
+    return render(request, 'products')

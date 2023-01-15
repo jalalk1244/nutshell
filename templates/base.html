@@ -221,14 +221,6 @@
           </div>
         </div>
       </footer>
-
-      <script>
-        window.setTimeout(() => {
-          $('.alert').fadeTo(500, 0).slideUp(() => {
-            $(this).remove();
-          })
-        }, 5000);
-      </script>
-
+      <script src="{% static 'scripts/base_script.js' %}"></script>
 </body>
 </html>
