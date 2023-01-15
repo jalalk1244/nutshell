@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>BAG</h1>
+    {% for obj in bag_products %}
+        <p>{{ obj.product.name }} | {{ obj.quantity }}</p>
+    {% endfor %}
+    <h3>{{ grand_total }}</h3>
 {% endblock %}
