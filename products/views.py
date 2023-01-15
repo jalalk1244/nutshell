@@ -57,9 +57,11 @@ def product_detail(request, product_id):
     product_review = ProductRating.objects.filter(product=product).order_by('-comment')
     product_ratings = ProductRating.objects.filter(product=product)
     avg = None
-    is_wished_product = len(WishList.objects.filter(Q(user=request.user) & Q(wished_product=product)))
-    
-    print(is_wished_product)
+
+    if request.user.is_authenticated:
+        is_wished_product = len(WishList.objects.filter(Q(user=request.user) & Q(wished_product=product)))
+    else:
+        is_wished_product = 0
 
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=product_id)
@@ -105,14 +107,14 @@ def view_wishlist(request):
     return render(request, 'products/wishlist.html', context)
 
 
-@login_required
 def add_to_wishlist(request, product_id):
     '''A view to add products to the wishlist'''
 
     product = get_object_or_404(Product, pk=product_id)
-    wished_item, created = WishList.objects.get_or_create(
-        wished_product=product,
-        user=request.user,)
+    if 'login' not in request.GET:
+        wished_item, created = WishList.objects.get_or_create(
+            wished_product=product,
+            user=request.user,)
 
     return redirect('product_detail', product_id=product.id)
 
