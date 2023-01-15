@@ -68,6 +68,10 @@ nav a,
     margin: 1.5rem 0;
 }
 
+.welcome-section {
+    max-width: 95vw;
+}
+
 /* -------------------------------------- Categories section */
 .categories-section img {
     height: 100px;
@@ -136,4 +140,14 @@ img {
         right: 0;
         left: inherit;
     }
+  }
+
+
+  .utility-nav {
+    background: #e4e4e4;
+    padding: 0.5rem 1rem;
+  }
+  
+  .utility-nav p {
+    margin-bottom: 0;
   }
