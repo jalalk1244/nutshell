@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'bag/css/bag.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <section class="container-fluid my-5">
+        <div class="card cart-card">
+            <div class="row justify-content-center">
+                <div class="col-md-8 cart">
+                    <div class="title">
+                        <div class="row">
+                            <div class="col"><h4><b>Thank You for your order</b></h4></div>
+                        </div>
+                    </div>
+                    <div class="back-to-shop"><a href="{% url 'products' %}">&leftarrow; <span class="text-muted">Back to shop</span></a></div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+{% endblock %}
