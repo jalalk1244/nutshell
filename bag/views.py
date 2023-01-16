@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
 from django.contrib import messages
 from products.models import Product
 
@@ -59,3 +59,19 @@ def add_to_bag(request):
 
     request.session['bag'] = bag
     return redirect(reverse('product_detail', args=[product.id]))
+
+
+def remove_from_bag(request, product_id):
+    '''A view to remove items from the bag'''
+
+    try:
+        product = get_object_or_404(Product, pk=product_id)
+        bag = request.session.get('bag', {})
+        del bag[str(product_id)]
+        messages.success(request, f'Removed  {product.name} from your bag')
+
+        request.session['bag'] = bag
+    except Exception as e:
+        messages.error(request, f'Error removing item: {e}')
+
+    return redirect('bag')

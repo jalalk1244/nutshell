@@ -36,7 +36,7 @@
                             <div class="col">
                                 <a href="#">-</a><a href="#" class="border">{{ obj.quantity }}</a><a href="#">+</a>
                             </div>
-                            <div class="col">$ {{ obj.product.price }} <span class="close">&#10005;</span></div>
+                            <div class="col">$ {{ obj.product.price }} <a href="{% url 'remove_from_bag' obj.product.id %}"><span class="close">&#10005;</span></a></div>
                         </div>
 
                     </div>
