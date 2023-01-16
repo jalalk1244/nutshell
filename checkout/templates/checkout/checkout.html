@@ -97,9 +97,15 @@
                         <div class="col"><strong>TOTAL PRICE</strong></div>
                         <div class="col text-right">$ {{ grand_total }}</div>
                     </div>
-                    <a href="#" class="btn btn-green">CHECKOUT</a>
                 </div>
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block postload_js %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 {% endblock %}
