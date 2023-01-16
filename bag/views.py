@@ -5,8 +5,8 @@ from products.models import Product
 # Create your views here.
 
 
-def view_bag(request):
-    '''A view to render bag items'''
+# Funciton for getting context variables
+def get_cart_info(request):
     bag_products = []
     total = 0
     product_count = 0
@@ -21,12 +21,12 @@ def view_bag(request):
             'quantity': product_data,
             'product': product,
         })
-    
+
     if total < 25:
         delivery = 3
     else:
         delivery = 0
-    
+
     grand_total = total + delivery
 
     context = {
@@ -37,6 +37,14 @@ def view_bag(request):
         'grand_total': grand_total,
         'number_of_items': len(bag_products),
     }
+
+    return context
+
+
+def view_bag(request):
+    '''A view to render bag items'''
+
+    context = get_cart_info(request)
 
     return render(request, 'bag/bag.html', context)
 

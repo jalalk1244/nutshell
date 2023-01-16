@@ -58,7 +58,7 @@
                         <div class="col"><strong>TOTAL PRICE</strong></div>
                         <div class="col text-right">$ {{ grand_total }}</div>
                     </div>
-                    <a href="#" class="btn btn-green">CHECKOUT</a>
+                    <a href="{% url 'checkout' %}" class="btn btn-green">CHECKOUT</a>
                 </div>
             </div>
         {% else %}
