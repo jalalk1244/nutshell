@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.contrib import messages
 from products.models import Product
 
 # Create your views here.
@@ -9,11 +10,7 @@ def view_bag(request):
     bag_products = []
     total = 0
     product_count = 0
-    bag = request.session.get('bag', {
-        '1': 1,
-        '3': 3,
-        '4': 2
-    })
+    bag = request.session.get('bag', {})
 
     for product_id, product_data in bag.items():
         product = get_object_or_404(Product, pk=product_id)
@@ -43,3 +40,22 @@ def view_bag(request):
 
     return render(request, 'bag/bag.html', context)
 
+
+def add_to_bag(request):
+    '''A view to add items to the bag'''
+
+    if request.method == 'POST':
+        bag = request.session.get('bag', {})
+        product_id = request.POST['product_id']
+        quantity = int(request.POST['quantity'])
+        product = get_object_or_404(Product, pk=product_id)
+
+        if product_id in bag.keys():
+            bag[product_id] += quantity
+            messages.success(request, f'Updated {product.name} quantity to {bag[product_id]}')
+        else:
+            bag[product_id] = quantity
+            messages.success(request, f'Added {product.name} the cart')
+
+    request.session['bag'] = bag
+    return redirect(reverse('product_detail', args=[product.id]))

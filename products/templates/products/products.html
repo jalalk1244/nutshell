@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <a class="btn btn-green my-3" href="#">Add to cart</a>
+                    <a class="btn btn-green my-3" href="{% url 'product_detail' product.id %}">Add to cart</a>
                     {% endif %}
                 </div>
             </div>

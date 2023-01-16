@@ -118,6 +118,10 @@ img {
     color: #0dd345;
 }
 
+#quantity {
+    max-width: 80px;
+}
+
 /* -------------------------------------- Accounts */
 .h-70vh {
     height: 70vh;
