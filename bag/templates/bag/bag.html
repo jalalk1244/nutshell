@@ -1,8 +1,75 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'bag/css/bag.css' %}" type="text/css">
+{% endblock %}
 
 {% block content %}
-    {% for obj in bag_products %}
-        <p>{{ obj.product.name }} | {{ obj.quantity }}</p>
-    {% endfor %}
-    <h3>{{ grand_total }}</h3>
+    <section class="container-fluid my-5">
+        <div class="card cart-card">
+        {% if product_count != 0 %}
+            <div class="row">
+                <div class="col-md-8 cart">
+                    <div class="title">
+                        <div class="row">
+                            <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                            <div class="col align-self-center text-right text-muted">{{ product_count }}</div>
+                        </div>
+                    </div>
+                    {% for obj in bag_products %} 
+                    <div class="row border-top border-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col-2">
+                                <a href="{% url 'product_detail' obj.product.id %}">
+                                {% if obj.product.image %}
+                                    <img class="img-fluid" src="{{ obj.product.image.url }}" alt="{{ obj.prodcut.name }}">
+                                {% else %}
+                                    <img class="img-fluid" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
+                                {% endif %}
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="row text-muted">{{ obj.product.sub_category }}</div>
+                                <div class="row">{{ obj.product.name }}</div>
+                            </div>
+                            <div class="col">
+                                <a href="#">-</a><a href="#" class="border">{{ obj.quantity }}</a><a href="#">+</a>
+                            </div>
+                            <div class="col">$ {{ obj.product.price }} <span class="close">&#10005;</span></div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    <div class="back-to-shop"><a href="{% url 'products' %}">&leftarrow; <span class="text-muted">Back to shop</span></a></div>
+                </div>
+                <div class="col-md-4 summary">
+                    <div><h5><b>Summary</b></h5></div>
+                    <hr>
+                    <div class="row">
+                        <div class="col" style="padding-left:0;">ITEMS {{ product_count }}</div>
+                        <div class="col text-right">$ {{ total }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="padding-left:0;">SHIPPING {{ product_count }}</div>
+                        <div class="col text-right">$ {{ delivery }}</div>
+                    </div>
+                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                        <div class="col"><strong>TOTAL PRICE</strong></div>
+                        <div class="col text-right">$ {{ grand_total }}</div>
+                    </div>
+                    <a href="#" class="btn btn-green">CHECKOUT</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="row h-70vh d-flex justify-content-center align-items-center px-2">
+                <div class="col d-flex justify-content-center align-items-center flex-column">
+                    <p><i class="fa-solid fa-cart-shopping"></i></p>
+                    <p><strong>Looks like you have not made your choice yet.</strong></p>
+                    <p><a href="{% url 'products' %}">view products</a></p>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+    </section>
 {% endblock %}
