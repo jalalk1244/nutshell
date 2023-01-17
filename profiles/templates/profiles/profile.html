@@ -10,7 +10,7 @@
     <section class="container-fluid my-5">
         <div class="card">
             <div class="row">
-                <div class="col-md-8 cart">
+                <div class="col-12 col-md-6 cart">
                     <div class="title">
                         <div class="row">
                             <div class="col"><h4><b>My Profile</b></h4></div>
@@ -18,14 +18,19 @@
                         </div>
                     </div>
                     <div class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-
+                        <p class="text-muted">Default Delivery Information</p>
+                        <div class="row main align-items-center justify-content-center">
+                            <form action="{% url 'profile' %}" method="POST">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button class="btn btn-green" type="submit">UPDATE INFORMATION</button>
+                            </form>
                         </div>
 
                     </div>
                     <div class="back-to-shop"><a href="{% url 'products' %}">&leftarrow; <span class="text-muted">Back to shop</span></a></div>
                 </div>
-                <div class="col-md-4 summary">
+                <div class="col-12 col-md-6 summary-profile">
                     <div><h5><b>Order history</b></h5></div>
                     <hr>
                 </div>
