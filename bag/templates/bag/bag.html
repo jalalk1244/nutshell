@@ -34,7 +34,13 @@
                                 <div class="row">{{ obj.product.name }}</div>
                             </div>
                             <div class="col">
-                                <a href="#">-</a><a href="#" class="border">{{ obj.quantity }}</a><a href="#">+</a>
+                                <a href="{% url 'quantity' obj.product.id %}?minus=True">
+                                    <i class="fa-solid fa-minus"></i>
+                                </a>
+                                <span class="py-2 px-2 mx-2 border">{{ obj.quantity }}</span>
+                                <a href="{% url 'quantity' obj.product.id %}?plus=True">
+                                    <i class="fa-regular fa-plus"></i>
+                                </a>
                             </div>
                             <div class="col">$ {{ obj.product.price }} <a href="{% url 'remove_from_bag' obj.product.id %}"><span class="close">&#10005;</span></a></div>
                         </div>

@@ -69,6 +69,25 @@ def add_to_bag(request):
     return redirect(reverse('product_detail', args=[product.id]))
 
 
+def quantity(request, product_id):
+    '''A view to increment or decrement the
+        quantity of the products from the shopping cart
+    '''
+    bag = request.session.get('bag', {})
+    product = get_object_or_404(Product, pk=product_id)
+
+    if 'minus' in request.GET:
+        bag[str(product_id)] = bag[str(product_id)] - 1
+        messages.success(request, f'Updated {product.name} quantity to {bag[str(product_id)]}')
+
+    if 'plus' in request.GET:
+        bag[str(product_id)] += 1
+        messages.success(request, f'Updated {product.name} quantity to {bag[str(product_id)]}')
+
+    request.session['bag'] = bag
+    return redirect(reverse('bag'))
+
+
 def remove_from_bag(request, product_id):
     '''A view to remove items from the bag'''
 
