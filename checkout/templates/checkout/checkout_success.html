@@ -184,7 +184,18 @@
                         </div>
 
                     </div>
-                    <div class="back-to-shop"><a href="{% url 'products' %}">&leftarrow; <span class="text-muted">Back to shop</span></a></div>
+                    {% if from_profile %}
+                        <div class="back-to-shop">
+                            <a href="{% url 'profile' %}">
+                            &leftarrow; <span class="text-muted">Back to Profile</span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="back-to-shop">
+                            <a href="{% url 'products' %}">&leftarrow; <span class="text-muted">Back to shop</span>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
                 
             </div>

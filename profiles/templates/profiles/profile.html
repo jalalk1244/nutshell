@@ -33,6 +33,48 @@
                 <div class="col-12 col-md-6 summary-profile">
                     <div><h5><b>Order history</b></h5></div>
                     <hr>
+                    {% if orders %}
+                    <div style="overflow-x: auto;">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Order Number</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Items</th>
+                                <th scope="col">Total Price</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for order in orders %}
+                              <tr>
+                                <td>
+                                    <a href="{% url 'order_history' order.order_number %}"
+                                    title="{{ order.order_number }}">
+                                    {{ order.order_number|truncatechars:6 }}
+                                    </a>
+                                </td>
+                                <td>{{ order.date}}</td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        {% for item in order.lineitems.all %}
+                                            <li class="small">
+                                                {{ item.product.name }} x{{ item.quantity }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>
+                                   {{ order.grand_total }}
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                    {% else %}
+                    <p>You have no orders yet</p>
+                    <p><a href="{% url 'products' %}">View the products</a></p>
+                    {% endif %}
                 </div>
             </div>
         </div>
