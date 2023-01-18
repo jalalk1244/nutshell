@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://nutshell.herokuapp.com/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/accounts/login/?next=/products/wishlist/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/bag/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/accounts/login/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/accounts/signup/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?category=nuts</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?category=organic-products</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?category=dry-fruits</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?category=seeds</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?category=organic-product</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/accounts/signup/?next=%2Fproducts%2Fwishlist%2F</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?category=nuts&amp;subcategory=almonds</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h&amp;category=nuts</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l&amp;category=nuts</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/1/</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h&amp;category=organic-products</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l&amp;category=organic-products</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h&amp;category=dry-fruits</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l&amp;category=dry-fruits</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h&amp;category=seeds</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l&amp;category=seeds</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h&amp;category=organic-product</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l&amp;category=organic-product</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/accounts/login/?next=%2Fproducts%2Fwishlist%2F</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=l2h&amp;category=nuts&amp;subcategory=almonds</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://nutshell.herokuapp.com/products/?sort=h2l&amp;category=nuts&amp;subcategory=almonds</loc>
+  <lastmod>2023-01-18T23:25:01+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>
