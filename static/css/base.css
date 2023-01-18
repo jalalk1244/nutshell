@@ -154,6 +154,37 @@ img {
     font-size: 25px;
 }
 
+/* -------------------------------------- Mailchimp */
+#mc_embed_signup {
+    background: #fff;
+    clear: left;
+    font: 14px Helvetica, Arial, sans-serif;
+    width: 500px;
+}
+
+#mc_embed_signup .foot {
+    height: 90% !important;
+}
+
+#mc-embedded-subscribe {
+    margin: 0;
+}
+
+#mc_embed_signup .foot {
+    display: block;
+    width: auto;
+}
+
+#mc_embed_signup .mc-field-group {
+    padding-bottom: 0;
+    min-height: 0;
+}
+
+
+#mc-embedded-subscribe-form {
+    margin: 0 !important;
+}
+
 /* -------------------------------------- Breakpoints */
 
 /* Medium */
