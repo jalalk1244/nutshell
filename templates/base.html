@@ -64,7 +64,6 @@
             <span class='badge badge-warning' id='lblCartCount'>{% number_of_cart_items request %}</span>
           </a>
 
-          <!-- <a class="nav-link d-lg-none" title="Account" href="#"><i class="fa-solid fa-user"></i></a> -->
           <a class="nav-link dropdown-toggle d-lg-none" href="#" id="navbarDropdown1" role="button"
             data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-regular fa-user"></i>
@@ -98,18 +97,7 @@
               </li>
     
               <div class="li-items d-lg-flex">
-    
-                <!-- <li class="nav-item d-flex">
-                  <div class="collapse fade" id="searchForm">
-                    <input id="search" type="search" class="form-control border-0" placeholder="search" />
-                  </div>
-                  <a class="nav-link ml-auto" href="#searchForm" data-target="#searchForm" data-toggle="collapse">
-                    <i class="mdi mdi-magnify"></i>
-                  </a>
-                </li> -->
-    
                 <li class="nav-item mx-5 d-none d-lg-block">
-                  <!-- <a class="nav-link" title="Account" href="#"><i class="fa-solid fa-user"></i></a> -->
                   <a class="nav-link dropdown-toggle d-none d-lg-block" href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-regular fa-user"></i>
                 </a>
@@ -139,12 +127,14 @@
                   </div>
                 </form>
               </div>
-              <a class="d-none d-lg-block navbar-brand" href="{% url 'home' %}"><strong class="text-green">Nutshell</strong></a>
+              <li class="nav-item">
+                <a class="d-none d-lg-block navbar-brand" href="{% url 'home' %}"><strong class="text-green">Nutshell</strong></a>
+              </li>
               <div class="li-items d-lg-flex">
                 <li class="nav-item mx-5 d-none d-lg-block">
                   <a class="nav-link" title="Cart" href="{% url 'bag' %}">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class='badge badge-warning' id='lblCartCount'> {% number_of_cart_items request %} </span>
+                    <span class='badge badge-warning' id='lblCartCount2'> {% number_of_cart_items request %} </span>
                   </a>
                 </li>
                 <li class="nav-item mx-5 d-none d-lg-block">
@@ -170,9 +160,10 @@
                 <li class="nav-item mx-3">
                   <a class="nav-link " href="{% url 'products' %}?category=seeds">SEEDS</a>
                 </li>
-              </ul </div>
+              </ul>
             </div>
           </div>
+        </div>
       </header>
       <!-- Offers -->
       <div class="utility-nav">
@@ -211,7 +202,7 @@
           <div class="col-12 col-md-4 align-self-center footer-socials">
             <ul class="list-inline social-links d-flex align-items-center justify-content-center">
               <li class="list-inline-item">
-                <a target="_blank" href="https://www.facebook.com/" rel="noopener">
+                <a target="_blank" href="https://www.facebook.com/profile.php?id=100089215195040" rel="noopener">
                   <i class="fa fa-facebook" aria-hidden="true"></i>
                   <span class="sr-only">Facebook</span>
                 </a>
@@ -262,8 +253,8 @@
                     </div>
                   </div>
                 </div>
+              </form>
             </div>
-            </form>
           </div>
 
           <!-- Subscription Modal -->
@@ -291,8 +282,10 @@
 
           <div class="col-12 col-md-4 align-self-start d-flex align-items-center justify-content-center">
             <p class="">
-              &#9426; Nutshell 2023
+              &#9426; Nutshell 2023 <br>
+              <a href="https://www.privacypolicygenerator.info/live.php?token=CS5whtRDH5kBNwXZlvJcAujEtuJ1V42t" target="_blank">Privacy Policy</a>
             </p>
+            <br>
           </div>
         </div>
 
@@ -304,9 +297,9 @@
       {% endblock %}
 
       <!-- Mailchimp -->
-      <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'>
+      <script src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'>
       </script>
-      <script type='text/javascript'>
+      <script>
         (function ($) {
           window.fnames = new Array();
           window.ftypes = new Array();
