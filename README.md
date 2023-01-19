@@ -219,6 +219,12 @@ During the development of this project serveral technologies have been used:
 
 - Lighthouse report (Chrome dev-tool) <br>
     ![image of lighthouse report](.//static/media/light-house.png)
+## Marketing
+- Users are also able to subscribe to receive the gallery's newsletter, using the MailChimp form found in the footer.
+![image of subscirbtion-form](.//static/media/subscirbtion-from.png)
+- A Facebook business page was also created
+![image of facebook page](.//static/media/facebook1.png)
+![image of facebook page](.//static/media/facebook2.png)
 
 ## Manual Tests
 
