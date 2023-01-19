@@ -54,13 +54,16 @@ def products(request):
 def product_detail(request, product_id):
     '''View the product details'''
     product = get_object_or_404(Product, pk=product_id)
-    related_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
-    product_review = ProductRating.objects.filter(product=product).order_by('-comment')
+    related_products = Product.objects.filter(
+        category=product.category).exclude(id=product_id)[:4]
+    product_review = ProductRating.objects.filter(
+        product=product).order_by('-comment')
     product_ratings = ProductRating.objects.filter(product=product)
     avg = None
 
     if request.user.is_authenticated:
-        is_wished_product = len(WishList.objects.filter(Q(user=request.user) & Q(wished_product=product)))
+        is_wished_product = len(WishList.objects.filter(Q(
+            user=request.user) & Q(wished_product=product)))
     else:
         is_wished_product = 0
 
@@ -154,7 +157,8 @@ def add_new_product(request):
             messages.success(request, 'Successfully added product')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
+            messages.error(request, 'Failed to add product. \
+                            Please ensure the form is valid.')
     else:
         form = ProductForm()
 
@@ -180,7 +184,8 @@ def edit_product(request, product_id):
             messages.success(request, 'Successfully edited product')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, 'Failed to edit product. Please ensure the form is valid.')
+            messages.error(request, 'Failed to edit product. \
+                        Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
 

@@ -30,7 +30,9 @@ class Subcategory(models.Model):
 
     name = models.CharField(max_length=200)
     slug = models.SlugField(null=False, unique=True)
-    parent_category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
+    parent_category = models.ForeignKey(
+        'Category', null=True, blank=True, on_delete=models.CASCADE
+        )
 
     def __str__(self):
         return self.name
@@ -43,16 +45,25 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
-    sub_category = models.ForeignKey('Subcategory', null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(
+        'Category', null=True, blank=True, on_delete=models.SET_NULL
+        )
+    sub_category = models.ForeignKey(
+        'Subcategory', null=True, blank=True, on_delete=models.SET_NULL
+        )
 
     def __str__(self):
         return self.name
 
 
 class ProductRating(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews', null=False, blank=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='reviews',
+        null=False, blank=False
+        )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False
+        )
     title = models.CharField(max_length=60, null=False, blank=False)
     rating = models.IntegerField(choices=STARS)
     comment = models.TextField(null=True, blank=True)

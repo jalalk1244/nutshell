@@ -36,120 +36,133 @@ Some additional elements that are not apparent on the wireframes were incorporat
 ![image of home page wireframe](./static/media/home-page-wireframe.png)
 ![image of about page wireframe](./static/media/product-page-wireframe.png)
 ![image of contact page wireframe](./static/media/shopping-bag-page-wireframe.png)
-![image of reservation page wireframe](./static/images/checkout-page-wireframe.png)
+![image of reservation page wireframe](./static/media/checkout-page-wireframe.png)
 
 ## Database schema
-Several custom models were created for the development of the site. First of all, in order for the customers to book reservations, a reservations model was created which had tables and user as foreign keys. A table model was then created to link it up with the reservation model. For the menu app two models were created, one for the dishes (Dish) and one for the drinks (Drink). Furthermore a allergens model was created that had a ManyToMany relationship with the dish model.
-![image of the database schema](./static/media/images/database-schema.png)
+Several models were created for the development of the site. First of all, in order for the customers to view products, a Products model was created which had category and subcategory as foreign keys. A category and subcategory model was then created to link it up with the product model. For the checkout app two models were created, one for the orders (Order) and one for the order items (OrderLineItem). Furthermore to create some custom models, a Wishlist model and product rating model was created that had user as ForiegnKey. 
+![image of the database schema](./static/media/data-schema.png)
 
 ## Color scheme
-The color scheme was carefully designed and chosen to ensure that the site has a great color contrast. Furthermore, when selecting colors, the fact that the restaurant is a Middle Eastern restaurant was taken into account in order to provide users with a Middle Eastern vibe and environment.
-![image of the color schema](./static/media/images/color-scheme.png)
+The color scheme was carefully designed and chosen to ensure that the site has a great color contrast. Furthermore, when selecting colors, the fact that the store is a selling healthy and natural food/fruits was taken into account in order to provide users with a green and natrual atmosphere and environment.
+![image of the color schema](./static/media/color-pallete.png)
 
 # UX
 ## Site-Goals
-The site's goal is to allow external users to book one or more guests for a meal in the restaurant on a specific date and time. External users can also manage their reservations on the website. The site also seeks to provide restaurant owners with the option to manage their restaurant bookings system as well as their menu presented on the website.
+Nutshell is a BtC ecommerce website. The site's goal is to allow external users to order one or more items from the site. External users can also have a Wishlist and leave product review on the products in the website. The site also seeks to provide store owners with the option to manage their store's products and customer as well as their payment system.
 
 ## The site's ideal user
-- The ideal user is a food lover who wants to taste new foods from various cultures. 
-- Someone who enjoys Middle Eastern cuisines.
-- An Afghan who wishes to experience their homeland in Sweden.
+- The ideal user is a dry friuts lover and nuts lover. 
+- Someone who is training and looks for nutritious snacks.
+- Someone who wishes to substitute unhealthy candy and chips with natural, delectable, and nutritious snacks.
 
 # Agile Development
 Agile Methodology was used to create the website. Github was used for agile project planning for this project. The issues on Github were used to build user stories and label them to ensure that the sites' fundamental requirements were met. The user stories defined the issue's aim and included an acceptance criteria section to identify the functionality that marked the user story as complete. The 24 user stories were then organized into 5 epics. Following that, a kanban board with four separate columns was made using github projects. The columns were no status, to do, in progress, and done.
 
 ### Epics
 - Website's foundations
-- Menu
+- Ordering functionality
 - Admin site control
-- Reservation functionality
+- Product viewing
 - Authentication
 
 ### User Stories
 - Website's foundations:
-    * As a user I can easily navigate through the site so that I can access different parts.
-    * As a user I feel welcomed by the home page and so that I know that I get attracted to book a reservation.
-    * As a user I can use the footer so that I can access the site’s social media.
-    * As a user I can send a contact form so that I can send feedback or any other question to the restaurant staff.
-    * As a user I can read about the restaurant so that I can get to know what kind of restaurang it is.
-    
-- Menu:
-    * As a User I can click on a menu item so that I can read the full description of it.
-    * As a User I can view a list of menu items so that I can select one to order.
-    * As a User I can view allergy icons on menu items so that I can avoid menu items that I am allergic to.
-    * As a UserI can view the name, picture and description of every menu item so that I can learn about the menu item.
-    * As a User I can view nutrition information of every menu item so that I can learn more about the menu item
+    * As a User  I can easily navigate through the site’s pages So that I can access different sections and pages of the site.
+    * As a User I can feel welcomed by the home page so that I get attracted to buy products from the site.
+    * As a User  I can find new offers on the site So that I more often visit and buy products from the site.
+    * As a User I can search for a desired item so that  I can bypass the navigation and search for what I want.
+    * As a User I can find a footer So that I can access the site’s social media and newsletter subscription.
+        
+- Ordering functionality:
+    * As a  User I can place an order  So that I can purchase desired products.
+    * As a  User I can view a summary of my order before payment So that I can make sure that I purchase the right items.
+    * As a  User I can receive an order confirmation email So that I can be informed that my order is being processed.
+    * As a Logged in User I can view my order history So that I can keep track of my orders.
+    * As a Logged in User I can get my checkout form prefilled with the saved data in my profile So that it is easier to proceed with the checkout.
 
 - Admin site control
-    * As a Site Admin I can create, read, update and delete drinks and food so that I can manage my restaurant’s menu
-    * As a Site Admin I can approve/disapprove reservations so that I can manage my restaurant’s bookings.
-    * As a Site Admin I can login to my account so that I can access and manage the website's backend.
-    * As a Site Admin I can view filter options on the database tables so that I can filter them as desired.
-    * As a logged in Site Admin I can navigate to the admin page from the navbar so that I can easily access the site’s backend.
+    * As a Site Admin I can navigate to the admin page from the navbar So that I can easily access the site’s backend.
+    * As a Site Admin I can login to my account So that I can access and manage the site’s backend.
+    * As a Site Admin I can perform full CRUD functionality on the products of the site So that I can manage my store.
+    * As a Site Admin I can find a product management page So that I can easily manage the store’s products.
 
-- Reservation functionality
-    * As a logged in User I can view my bookings so that I can see the status of all my bookings.
-    * As a logged in User I can send a reservation request so that i can visit the restaurant if the reservation is approved.
-    * As a logged in User I can create, read, update and delete reservations so that I can manage my bookings.
-    * As a logged in User I can choose the amount of guests I want to reserve a table for so that I can determine the number of guests.
-    * As a logged in User I can submit the reservations form with pre populated details so that I can quickly submit the form.
+- Product viewing
+
+     * As a User I can view a list of products So that I can choose one to add to my shopping cart.
+     * As a User I can view related products to the currently selected one So that If necessary, I may add similar products to the basket.
+     * As a User I can view customer reviews and ratings of a product So that it can help me make purchasing decisions.
+     * As a User I can sort products based on categories So that I can view products of a desired category.
+     * As a User I can sort products based on price so that I can view products of desired price range. 
+
+
 
 - Authentication
-    * As a User I can login or register an account so that I can book a reservation.
-    * As a logged in User I can edit my account information so that I can make sure that my details are correct.
-    * As a User I can choose to register an account with my facebook, gmail or twitter account so that I can comfortably create an account.
-    * As a User I can choose to save my account login details so that I can efficiently login every time I visit the site.
+    * As a User I can register for an account So that I can view my order history
+    * As a  User I can find the logout/login button in the navbar So that I can easily access my profile.
+    * As a  Logged in User I can save desired products to my wishlist So that I can visit the site back and buy them later.
+    * As a  User I can save my shipping details in my profile So that my checkout form is prefilled.
+    * As a User I can get an order confirmation email So that I can verify that my order was successful.
 
 ### Scope
 * Reponsive Design.
-* Date/Time-based bookings.
-* Booking Cancellations.
+* Product Ordering.
+* Customer Product Review .
 * Restricted role based features.
-* Menu page with food and drinks section.
-* Landing page with information about the restaurant.
-* Social account login possability.
+* Products page with sorting based on category and price.
+* Landing page with information about the Store.
+* Userprofile page with order history.
 
 # Features
 - Navigation bar
     * This section includes the logo of the site and a responsive navigation bar with a hamburger menu for smaller screens. This header is present in all of the site’s pages.
     * The nav bar allows users to easily navigate from one section to another and it is responsive for mobile screens with the navigation links turning into a hamburger menu.
-    * For logged in users a link to their ‘My Reservations’ page is added and for a logged in admin user a link to the admin page is added.<br>
-![image of the navigation bar](./static/media/images/nav-bar.png)
+    * The users can also click on a category so that the may render all products of that category.
+    * The navbar allows users to search for a single product and skip all navigation.
+    * For logged in users a link to their 'My Profile' page is added and for a logged in admin user a link to the admin page is added.<br>
+![image of the navigation bar](./static/media/navbar.png)
 - Landing page
-    * The landing page includes a welcoming message and the restaurant's slogan. It also consists of a background image of a served table in the restaurant.
-    * The landing page introduces the users to Afghan Cuisine and welcomes them to the restaurant site while the slogan on this section encourages users to learn more about the restaurant and view the menu.<br>
-![image of the landing page](./static/media/images/landing-page.png)
-- About section
-    * This section contains information on the restaurant, its opening hours, and contact information such as an email address and phone number.
-    * This section informs people about the type of restaurant Afghan Cuisine is and the varieties of food they provide. It also tells the user what time the restaurant is open for business.<br>
-![image of the about section](./static/media/images/about-page.png)
-- Contact section
-    * The contact area includes a functional form where the user can enter their full name, email address, and a message to send to us. It also includes a photograph of a restaurant entrée.
-    * Users can offer us feedback or ask questions about the restaurant via the contact section of the website. The photo in this part gives users a taste of what the restaurant has to offer, encouraging them to make a reservation.<br>
-![image of the contact section](./static/media/images/contact-section.png)
+    * The landing page includes a welcoming message and a CTA button for shopping. It also consists of a image of some of the products of the store.
+    * The landing page introduces the users to Nutshell and welcomes them to the store site while the CTA button on this section encourages users to view the products and adding them to thier cart.<br>
+![image of the landing page](./static/media/landing-page.png)
+- Products page
+    * This page displays all of the store’s products. 
+    * There are sorting options based on price, category and subcategory. 
+    * The products are all presented as cards. The cards include the item's name and price, a picture of the menu item and a button to add it to the cart.
+    * This section allows customers to see all of the products that the store offers so that they add it to their shopping bag and order it.<br>
+![image of the products page](./static/media/products-page-cards.png)
+![image of the products page](./static/media/subcategories.png)
+
+- Shopping cart
+    * This section includes all the products that the user adds to their shopping cart.
+    * The products are displayed in a table with important table headers.
+    * Users can also increment or decrement the quantity of the products in this section.
+    * A summary of the shopping cart is als presented with the total price and a button to the checkout page.
+<br>
+
+![image of the shopping cart](./static/media/shopping-cart.png)
+
 - Footer 
-    * The footer consists of links to the restaurant's social media accounts so that the user can access.<br>
-![image of the footer](./static/media/images/footer.png)
-- Booking reservation page
-    * This section contains a form that the logged-in user can use to book a reservation. If the user is not logged in, they are advised to log in or create an account before making a reservation.
-    * This area is an important part of the website because it is from here that the user may make a reservation to visit the restaurant. For the convenience of the users, the form is also prepopulated. The reservation booking form has form validation features to ensure that the user enters valid values.<br>
-![image of the booking reservation page](./static/media/images/book-reservation.png)
-- Viewing the reservation
-    * This page displays all reservations and associated data in a table for logged-in users.
-    * Users can view their reservations as well as their associated details. They can also amend or delete any of their reservations, providing them the opportunity to remedy any errors in the reservation details. In this section, defensive programming is used, so that when a user attempts to delete a specific reservation, a confirmation modal appears for them to affirm their decision.<br>
-![image of the my reservations page](./static/media/images/my-reservations.png)
-- Menu
-    * This page displays all of the restaurant's menu items. There are separate sections for the dishes and drinks. The menu items are all presented as cards. The cards include the item's name and price, a picture of the menu item, a description of the item, and nutrition information.
-    * This section allows consumers to see all of the food and drinks that the restaurant offers so that they know what they can order in the restaurant. It also displays nutrition information such as calorie, protein, and fat content, as well as allergen icons, allowing the user to avoid undesirable menu items.<br>
-![image of the dishes section](./static/media/images/menu-dishes.png)
-![image of the drinks section](./static/media/images/menu-drinks.png)
-![image of the dish card](./static/media/images/dish-card.png)
+    * The footer consists of links to the restaurant's social media accounts so that the user can access.
+    * It also consists of a subscription form that the users can submit to subscribe to the store’s newsletter.<br>
+
+![image of the footer](./static/media/footer.png)
+- Wishlist page
+    * The wishlist page renders the products that logged in users add to their wishlist.
+    * The products are presented in cards with the name, image and price of the product.
+    * The users have the option to add it to their cart or remove it from their wishlist.
+<br>
+
+![image of the wishlist page](./static/media/wishlist.png)
+- My Profile
+    * In this page the users can change or add their shipping information with which the checkout form is prefilled.
+    * The users can also view a history of their orders.<br>
+![image of the profile page](./static/media/my-profile.png)
 
 ## Future Features
 Some Future features that can be implemented are:
-- The ability for users to edit their account details
-- Avoiding double booking
-- Table map for the tables in the restaurant
+- The ability for users to choose a specic amount of the products to buy.
+- Sorting based on product rating.
+- A seperate offers section in the landing page.
 
 ## Technologies Used
 
@@ -175,8 +188,8 @@ During the development of this project serveral technologies have been used:
     - Heroku was used to deploy and host the project.
 - [Lucid](https://lucid.app/documents#/dashboard)
     - Lucid was used to create the database schema.
-- [Cloudinary](https://cloudinary.com/)
-    - Cloudinary was used to store the static files of the site.
+- [AWS](https://aws.amazon.com/)
+    - AWS was used to store the static files of the site.
 - [Favicon.io](https://favicon.io/)
     - Favicon was used to create favicon's for the site.
 - [SQLite](https://www.sqlite.org/index.html)
@@ -186,29 +199,15 @@ During the development of this project serveral technologies have been used:
 
 
 # Testing
-## Bugs
-The following bugs were discovered during the testing of the site:
-* **Bug:** After adding extra model fields to the Reservation model the form in the template was not responsive anymore.
-* **Fix:** Change the form.as_p to form.as_table and put the form inside a table and bring the submit button outside the table.<hr>
-
-* **Bug:** I wanted the allergens field to be a checkbox list that the admin could choose multiple values from but models.choices only allowed it to be one value.
-* **Fix:** I created a separate model for allergens and in the allergens field for the dishes I created a ManyToMany field. After that I added filter_horizontal for the allergens field in the admin panel.<hr>
-
-* **Bug:** The URL in the CSS background-image property for the landing page div with the class 'hero', did not function after deploying the site to Heroku and setting DEBUG to False in the settings.py file.
-* **Fix:** I copied the image url from Cloudinary and replaced it with the URL in the css background-image property for the landing page div with the class 'hero'.
-
-## Unsolved bugs
-* **Social account login**: I created the Gmail app to generate OAuth 2 credentials for the django-allauth social account login in a specific Gmail account. When attempting to log in with Google on the deployed Heroku site while signed in to Chrome with that specific Gmail account, I receive a 'Deceptive site ahead' error. When trying the same operation in an incognito tab or in the local host, I don't get the error. While at first I thought that the error was not specific to my Gmail account I tried to recreate the app in google Developers but then when I asked friends to try to log in with their google accounts, no such error was displaying for them. I have tried to log in with google with several different accounts but I only get the error with the account that the OAuth 2 credentials were generated.
-
 ## Validator Testing
 
 - HTML
-    * Validated using [W3C](https://validator.w3.org/) HTML validator and no errors were found.
-    ![image of HTML validation](./static/media/images/html-validation.png)
+    * Validated using [W3C](https://validator.w3.org/) HTML validator and some minor errors were found.
+    ![image of HTML validation](./static/media/html-validator.png)
 
 - CSS
     * Validated using [Jigsaw](https://jigsaw.w3.org/css-validator/) validator and no errors were found.
-    ![image of css validation](./static/media/images/css-validation.png)
+    ![image of css validation](./static/media/css-validator.png)
 
 - JavaScript
     * Validated using [JsHint](https://jshint.com/) validator and no errors were found.
@@ -216,10 +215,10 @@ The following bugs were discovered during the testing of the site:
 - Python
     * Validated using [CI Python Linter](https://pep8ci.herokuapp.com/) validator and no errors were found except in the settings.py file.
 
-- I have also checked and tested the site on different browsers such as Chrome, Firefox, Edge and Safari. By using the chrome dev tools and [Am I Responsive?](https://ui.dev/amiresponsive?url=https://8000-jalalk1244-educationfor-fd3e2i2syhp.ws-eu62.gitpod.io/index.html) website have i also checked and confirmed the responsiveness of the site.
+- I have also checked and tested the site on different browsers such as Chrome, Firefox, Edge and Safari. By using the chrome dev tools and [Am I Responsive?](https://ui.dev/amiresponsive?url=https://8000-jalalk1244-nutshell-zdg4423b77t.ws-eu82.gitpod.io/) website have i also checked and confirmed the responsiveness of the site.
 
 - Lighthouse report (Chrome dev-tool) <br>
-    ![image of lighthouse report](.//static/media/images/lighthous-report.png)
+    ![image of lighthouse report](.//static/media/light-house.png)
 
 ## Manual Tests
 
@@ -231,60 +230,39 @@ Ensure a user can sign up to the website
 
 Steps:
 
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and click on the account icon
+1. Navigate to [Nutshell](https://nutshell.herokuapp.com/) and click on the account icon
 2. Click on the sign up link
 3. Enter email, username, first name, last name and password 
 3. Click Sign up
 
 Expected:
 
-The user is redirected to the home page as a logged in user
+The user is asked to confirm thier email adress
 
 Actual: 
 
-The user is redirected to the home page as a logged in user
+The user is asked to confirm thier email adress
 
 <hr>
 
 Description:
 
-Ensure a user can login in to the website with thier social accounts
+Ensure a registered user can login in to the website with thier login info
 
 Steps:
 
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and click on the account icon
+1. Navigate to Navigate to [Nutshell](https://nutshell.herokuapp.com/) and click on the account icon
 2. Click on the login link
-3. Click on the Google button
-3. Confirm sign in with social account
-4. Enter your social account details
+3. Enter username or email and password
+3. Click sign in
 
 Expected:
 
-The user is logged in with thier social account details
+The user is logged in with thier account and redirect to home page
 
 Actual: 
 
-The user is logged in with thier social account details
-
-<hr>
-
-Description:
-
-Ensure a user can log in once signed up
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and click on the account icon
-2. Click on the log in
-2. Enter login detailscreated in previous test case
-3. Click login
-
-Expected:
-
-User is successfully logged in and redirected to the home page
-
-Actual:
-
-User is successfully logged in and redirected to the home page
+The user is logged in with thier account and redirect to home page
 
 <hr>
 
@@ -316,15 +294,15 @@ Ensure that the home page with navbar and footer displays on loading the page
 
 Steps:
 
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/)
+1. Navigate to Navigate to [Nutshell](https://nutshell.herokuapp.com/)
 
 Expected:
 
-A landing page with welcoming message with footer and navbar
+A landing page with CTA button and website description message with footer and navbar
 
 Actual:
 
-A landing page with welcoming message with footer and navbar
+A landing page with CTA button and website description message with footer and navbar
 
 <hr>
 
@@ -334,25 +312,25 @@ Ensure that the links in the navbar are linking to the right page
 
 Steps:
 
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/)
+1. Navigate to Navigate to [Nutshell](https://nutshell.herokuapp.com/)
 2. Click on any of the navbar links
 
 Expected:
 
-if clicked on Home or the Logo, redirected to the index.html<br>
-if clicked on About Us, redirected to the index.html#about-section<br>
-if clicked on Contact , redirected to the index.html#contact-section<br>
-if clicked on Menu, redirected to the menu.html<br>
+if clicked on the Logo, redirected to the index.html page<br>
+if clicked on Cart icon, redirected to the bag.html page<br>
+if clicked on heart icon , redirected to the wishlist.html page<br>
+if clicked on any category, redirected to the products.html page with products from that category rendering<br>
 if clicked on Reservations, redirected to the create_reservation.html<br>
 if clicked on account icon then login, redirected to the Allauth sign in page<br>
 if clicked on account icon then signup, redirected to the Allauth signup page
 
 Actual:
 
-if clicked on Home or the Logo, redirected to the index.html<br>
-if clicked on About Us, redirected to the index.html#about-section<br>
-if clicked on Contact , redirected to the index.html#contact-section<br>
-if clicked on Menu, redirected to the menu.html<br>
+if clicked on the Logo, redirected to the index.html page<br>
+if clicked on Cart icon, redirected to the bag.html page<br>
+if clicked on heart icon , redirected to the wishlist.html page<br>
+if clicked on any category, redirected to the products.html page with products from that category rendering<br>
 if clicked on Reservations, redirected to the create_reservation.html<br>
 if clicked on account icon then login, redirected to the Allauth sign in page<br>
 if clicked on account icon then signup, redirected to the Allauth signup page
@@ -361,229 +339,65 @@ if clicked on account icon then signup, redirected to the Allauth signup page
 
 Description:
 
-Ensure that the contact form is working
+Ensure that the subscription form is working
 
 Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/)
-2. Click Contact from the navbar
-3. Fill in the contact from details
-4. Click on Submit
+1. Navigate to Navigate to [Nutshell](https://nutshell.herokuapp.com/) and then the footer
+2. Enter a valid email address
+3. Click subscribe
 
 Expected:
 
-A success message with the submited name on it and an email sent to quizleage26@gmail.com with submited message
+The email address added to the mailchimp audience
 
 Actual:
 
-A success message with the submited name on it and an email sent to quizleage26@gmail.com with submited message
+The email address added to the mailchimp audience
 
-**Reservation functionality**
+**Ordering functionality**
 
 Description:
 
-Ensure that the reservation form can be sent
+Ensure that products can be added to the cart
 
 Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login or register an account
-2. Click on the reservation button on the navbar
-3. Fill in the form the details 
-4. Click on submit
+1. Navigate to [Nutshell](https://nutshell.herokuapp.com/) and click shop now button
+2. Click on a desired product
+3. Choose quantity
+3. Click Add to cart
 
 Expected: 
 
-A success message stating that the reservation was sent and is awaiting approval
+The selected product added to the cart list in the bag.html page
 
 Actual : 
 
-A success message stating that the reservation was sent and is awaiting approval
+The selected product added to the cart list in the bag.html page
 
 <hr>
 
 Description:
 
-Ensure that reservations can be viewed
+Ensure that checkout form can be sent
 
 Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login or register an account
-2. Click on the account icon
-3. Click on My Reservations
+1. Navigate to [Nutshell](https://nutshell.herokuapp.com/)  and add som products to your cart
+2. Click checkout
+3. Fill in the checkout form and click complete order
 
 Exepected: 
 
-if there are booked reservations, a list of all of the booked reservation and their details
-if ther are no booked reservations, a message stating that there are no booked reservation and promting to book one
+If the details are correct redirect to the checkout success page with a order confirmation email sent to the given email
 
 Actual:
 
-if there are booked reservations, a list of all of the booked reservation and their details
-if ther are no booked reservations, a message stating that there are no booked reservation and promting to book one
+If the details are correct redirect to the checkout success page with a order confirmation email sent to the given email
 
 <hr>
-
-Description:
-
-Ensure that reservations can be edited
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login or register an account
-2. Click on the account icon
-3. Click on My Reservations
-4. click on the edit button on one of the reservations
-5. Change the form details
-
-Expected: 
-
-Reservation updated with the changed details
-
-Actual:
-
-Reservation updated with the changed details
-
-<hr>
-
-Description:
-
-Ensure that reservations can be deleted
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login or register an account
-2. Click on the account icon
-3. Click on My Reservations
-4. click on the edit button on one of the reservations
-5. Click the delete button
-6. Confirm deletion
-
-Expected:
-
-The reservation deleted from the database
-
-Actual: 
-
-The reservation deleted from the database
-
-<hr>
-
-Description:
-
-Ensure that booking reservations form are prepopulated
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login or register an account
-2. Click on the reservation button on the navbar
-
-Expected:
-
-The reservation form prepopulated with the users email and name
-
-Actual: 
-
-The reservation form prepopulated with the users email and name
-
-<hr>
-
-**Menu**
-
-Description:
-
-Ensure that all of the available menu items can be viewed
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/)
-2. Click Menu from the navbar
-
-Expected: 
-
-A list of menu items as cards with thier name and picture
-
-Actual:
-
-A list of menu items as cards with thier name and picture
-
-<hr>
-
-Description:
-
-Ensure that the menu items has desciption section
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/)
-2. Click Menu from the navbar
-3. Click on the read more button on any of the dishes
-
-Expected: 
-
-Desciption, nutrition information and allergen information about the dish is revealed
-
-Actual:
-
-Desciption, nutrition information and allergen information about the dish is revealed
-
-<hr>
-
-**Admin site control**
-
-Description:
-
-Ensure that an admin user can login and find access the site's backend
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/)
-2. login as and admin user
-3. Click the account icon on the navbar
-4. Click admin page
-
-Expected:
-
-The admin user is redirected to the admin page
-
-Actual:
-
-The admin user is redirected to the admin page
-
-<hr>
-
-Description:
-
-Ensure that an admin user can approve or disapprove reservatoins
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login as and admin user
-2. Click on Reservations table
-3. Select a reservation and chose 'delete selected reservations' from the actions
-
-Expected:
-
-The selected reservation deleted from the database
-
-Actual:
-
-The selected reservation deleted from the database
-
-<hr>
-
-Description:
-
-Ensure that the an admin user can performe CRUD functionality on the menu items
-
-Steps:
-1. Navigate to [Afghan Cuisine](https://afghan-cuisine.herokuapp.com/) and login as and admin user
-2. Click on Dishs table
-
-Expected:
-
-If a dish is selected and the action 'delete selected dish' is chosen, the dish deleted from the database<br>
-If clicked 'add dish' and filled the details, the dish added to the database<br>
-If clicked on any dish and changed the details, the dish's details upated on the database
-
-Actual:
-
-If a dish is selected and the action 'delete selected dish' is chosen, the dish deleted from the database<br>
-If clicked 'add dish' and filled the details, the dish added to the database<br>
-If clicked on any dish and changed the details, the dish's details upated on the database
-
-**The same tests were done for the drinks table and the allergens table and they passed**
 
 # Deployment
+
+- Live site can be viewed here: https://nutshell.herokuapp.com/
 
 ## Heroku
 To deploy my project to Heroku I applied these steps:
@@ -593,12 +407,17 @@ To deploy my project to Heroku I applied these steps:
 - Select region and click create app
 - Go to settings tab and click reveal config vars
 - Add the below config vars:
-    * CLOUDINARY_URL = your Cloudinary URL
-    * DATABASE_URL = your database URL
-    * EMAIL_HOST_USER = the email for receiving submitted contact forms
-    * EMAIL_HOST_PASSWORD = email app password
-    * SECRET_KEY = your django secret key
-    * PORT = 8000
+    * AWS_ACCESS_KEY_ID
+    * AWS_SECRET_ACCESS_KEY
+    * DATABASE_URL
+    * EMAIL_HOST_PASS
+    * EMAIL_HOST_USER
+    * PORT
+    * SECRET_KEY
+    * STRIPE_PUBLIC_KEY
+    * STRIPE_SECRET_KEY
+    * STRIPE_WH_SECRET
+    * USE_AWS
 - Navigate to the deploy page
 - Connect github account and search for the repository
 - Click deploy <br>
@@ -606,7 +425,7 @@ The app should now be deployed
 
 ## Clone the repository
 To clone the repository:
-- Navigate to https://github.com/jalalk1244/afghan-cuisine 
+- Navigate to https://github.com/jalalk1244/nutshell
 - click on the code button at the top of the file
 - Choose HTTPS and copy the link
 - Navigate to your editors terminal, where git must be installed
@@ -617,15 +436,11 @@ To clone the repository:
 # Credits
 
 ## Content
-- [Allergy icons](https://github.com/Erudus/erudus-icons)
+
 - [Customize allauth forms](https://www.geeksforgeeks.org/python-extending-and-customizing-django-allauth/)
-- [Allauth Socialaccount](https://testdriven.io/blog/django-social-auth/)
-- [Landing page image](https://foodandnutrition.org/wp-content/uploads/MGT-Afghanistan.jpg)
-- [Contact section image](https://www.breadsaltcuisine.com/assets/frontend/images/welcome.jpg)
-- [Foodora image](https://upload.wikimedia.org/wikipedia/commons/2/23/Foodora_logo.png)
-- [Uber eats image](https://logodownload.org/wp-content/uploads/2019/05/uber-eats-logo.png)
-- [Test drink image](https://emuweavinglife.files.wordpress.com/2012/11/dogh-6.jpg?w=584)
 - [Crispy Forms](https://django-crispy-forms.readthedocs.io/en/latest/)
 - [Django Allauth](https://django-allauth.readthedocs.io/en/latest/installation.html)
 - [Sending email with django](https://www.youtube.com/watch?v=xNqnHmXIuzU&t=438s)
+- Chekout functionality:
+    * Boutique Ado Walkthrough
 

@@ -18,7 +18,7 @@ class StripeWH_Handler:
 
     def __init__(self, request):
         self.request = request
-    
+
     def _send_confirmation_email(self, order):
         '''Send the user a confirmation email'''
         cust_email = order.email
@@ -63,8 +63,8 @@ class StripeWH_Handler:
         for field, value in shipping_details.address.items():
             if value == '':
                 shipping_details.address[field] = None
-        
-         # Update profile information if svae_info was checked
+
+        # Update profile information if svae_info was checked
         profile = None
         username = intent.metadata.username
         if username != 'AnonymousUser':
@@ -106,7 +106,8 @@ class StripeWH_Handler:
         if order_exists:
             self._send_confirmation_email(order)
             return HttpResponse(
-                content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database',
+                content=f'Webhook received: {event["type"]} |\
+                        SUCCESS: Verified order already in database',
                 status=200)
         else:
             order = None
@@ -136,17 +137,19 @@ class StripeWH_Handler:
             except Exception as e:
                 if order:
                     order.delete()
-                    return HttpResponse(	
-                        content=f'Webhook received: {event["type"]} | ERROR: {e}',
+                    return HttpResponse(
+                        content=f'Webhook received:\
+                             {event["type"]} | ERROR: {e}',
                         status=500)
 
         self._send_confirmation_email(order)
-        return HttpResponse(	
-            content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',	
+        return HttpResponse(
+            content=f'Webhook received: {event["type"]} | \
+                    SUCCESS: Created order in webhook',
             status=200)
 
     def handle_payment_intent_payment_failed(self, event):
         '''Handle the payment_intent.payment.failed webhook from Stripe'''
-        return HttpResponse(	
+        return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200)
