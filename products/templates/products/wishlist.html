@@ -1,58 +1,47 @@
 {% extends 'base.html' %}
-{% load static %}
-
-
+{% block extra_title %}
+  — Your wishlist
+{% endblock %}
 {% block content %}
-<section class="container-fluid bg-creamy">
-    <div class="row">
-        <div class="col">
-            <h2><u>Wishlist</u></h2>
+  <section class="page-shell wishlist-page">
+    <p class="eyebrow">
+      For another little moment
+    </p>
+    <div class="section-heading">
+      <h1>
+        Saved for a craving.
+      </h1>
+      <span class="result-count">
+        {{ wishlist_of_user|length }} favourite{{ wishlist_of_user|length|pluralize }}
+      </span>
+    </div>
+    <div class="shop-grid">
+      {% for obj in wishlist_of_user %}
+        <div>
+          {% include 'includes/product_card.html' with product=obj.wished_product %}
+          <form class="wishlist-form" method="post" action="{% url 'remove_from_wishlist' obj.wished_product.id %}">
+            {% csrf_token %}
+            <button type="submit">
+              Remove from wishlist ×
+            </button>
+          </form>
         </div>
-    </div>
-</section>
-<section class="container my-3">
-    <div class="row my-2">
-        <div class="col text-center"><i class="wishlist-icon fa-regular fa-heart"></i></div>
-    </div>
-    <div class="row my-2">
-        <div class="col text-center">
-            <h1>My Wishlist</h1>
+      {% empty %}
+        <div class="empty-state">
+          <span class="empty-symbol" aria-hidden="true">
+            ♡
+          </span>
+          <h2>
+            A place for your favourites.
+          </h2>
+          <p>
+            Save a few good things and come back when the craving calls.
+          </p>
+          <a class="btn btn-green" href="{% url 'products' %}">
+            Find your favourites ↗
+          </a>
         </div>
+      {% endfor %}
     </div>
-    
-    <div class="row">
-        <div class="container my-3">
-            <div class="row px-3">
-                {% if wishlist_of_user.count != 0 %}
-                {% for obj in wishlist_of_user %}
-                <div class="col-12 col-lg-6 my-3 d-flex justify-content-center align-items-center">
-                    <div class="card product-card" style="width: 18rem;">
-                        <a href="{% url 'product_detail' obj.wished_product.id %}">
-                            {% if obj.wished_product.image %}
-                                    <img class="card-img-top" src="{{ obj.wished_product.image.url }}" alt="{{ obj.wished_product.name }}">
-                            {% else %}
-                                <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
-                            {% endif %}
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ obj.wished_product.name }} - ${{ obj.wished_product.price }}</h5>
-                            <a class="btn btn-green my-3" href="#">
-                                Add to cart
-                            </a>
-                            <form method="post" action="{% url 'remove_from_wishlist' obj.wished_product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  title="Remove from wishlist" class="btn wishlist-btn"><i class="fa-regular fa-trash-can"></i></button></form>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="col d-flex justify-content-center align-items-center flex-column">
-                    <h3>Your Wishlist is empty</h3>
-                    <br>
-                    <h5>Go to the <a class="text-center text-green" href="{% url 'products' %}">Shopping page</a> to add products to your wishlist</h5>
-                </div>
-                {% endif %}
-            </div>
-          </div>
-    </div>
-</section>
+  </section>
 {% endblock %}

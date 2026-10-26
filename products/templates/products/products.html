@@ -1,104 +1,101 @@
 {% extends 'base.html' %}
-{% load static %}
-
-
+{% block extra_title %}
+  — The collection
+{% endblock %}
 {% block content %}
-<section class="container-fluid bg-creamy">
-    <div class="row">
-        <div class="col">
-            <h2><u>Products</u></h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mx-auto text-center">
-           <h3>{{ category.name }}</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col d-flex justify-content-center">
-            <ul class="list-group list-group-horizontal subcategories">
-                {% for s in subcategories %}
-                <li class="list-group-item">
-                    <a class="btn btn-outline-green" href="{% url 'products' %}?category={{ category }}&subcategory={{ s.slug }}">
-                        {{ s.name }}
-                    </a>
-                </li>
-                {% endfor %}
-              </ul>
-        </div>
+  <section class="catalogue-heading page-shell">
+    <p class="eyebrow">
+      A handful of good things
+    </p>
+    <div>
+      <h1>
+        {% if request.GET.q %}
+          Your search, in a nutshell.
+        {% else %}
+          Meet your next favourite.
+        {% endif %}
+      </h1>
+      <p>
+        {% if request.GET.q %}
+          Results for “{{ request.GET.q }}”
+        {% else %}
+          A little salty. A little sweet. Always worth a handful.
+        {% endif %}
+      </p>
     </div>
   </section>
-  <section class="container-fluid my-3">
-    <div class="row">
-        <div class="col d-flex justify-content-start">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                  Sort products
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item"
-                        href="{% url 'products' %}?sort=l2h{% if category is not None %}&category={{ category }}{% endif %}{% if subcategory is not None %}&subcategory={{ subcategory }}{% endif %}">
-                        Pricelow to high
-                    </a>
-                    <a class="dropdown-item"
-                        href="{% url 'products' %}?sort=h2l{% if category is not None %}&category={{ category }}{% endif %}{% if subcategory is not None %}&subcategory={{ subcategory }}{% endif %}">
-                        Price High to low
-                    </a>
-                </div>
-              </div>
-        </div>
-    </div>
-    <div class="row">
-        {% for product in products %}
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-stretch my-3">
-            <div class="card product-card">
-                <a href="{% url 'product_detail' product.id %}">
-                {% if product.image %}
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ prodcut.name }}">
-                {% else %}
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
-                {% endif %}
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }} - ${{ product.price }}</h5>
-                    {% if request.user.is_superuser %}
-                    <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
-                    
-                    <!-- Button trigger modal -->
-                    <button type="button" title="Delete Product" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ product.id }}">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body" id="myinput">
-                            <p>Are you sure you want to delete this product?</p>
-                            <p>This action <strong>cannot</strong> be undone!</p>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                            <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <a class="btn btn-green my-3" href="{% url 'product_detail' product.id %}">Add to cart</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+  <section class="page-shell catalogue">
+    <div class="catalogue-toolbar">
+      <nav class="filter-chips" aria-label="Product categories">
+        <a href="{% url 'products' %}" {% if not category %}aria-current="page"{% endif %}>
+          Everything
+        </a>
+        {% for cat in categories %}
+          <a href="?category={{ cat.slug|urlencode }}" {% if category == cat.slug %}aria-current="page"{% endif %}>
+            {{ cat.name }}
+          </a>
         {% endfor %}
+      </nav>
+      <form method="get" class="sort-form">
+        {% if category %}
+          <input type="hidden" name="category" value="{{ category }}">
+        {% endif %}
+        {% if subcategory %}
+          <input type="hidden" name="subcategory" value="{{ subcategory }}">
+        {% endif %}
+        {% if request.GET.q %}
+          <input type="hidden" name="q" value="{{ request.GET.q }}">
+        {% endif %}
+        <label for="sort-products">
+          Sort by
+        </label>
+        <select name="sort" id="sort-products">
+          <option value="sku" {% if request.GET.sort == 'sku' %}selected{% endif %}>
+            Featured
+          </option>
+          <option value="l2h" {% if request.GET.sort == 'l2h' %}selected{% endif %}>
+            Price: low to high
+          </option>
+          <option value="h2l" {% if request.GET.sort == 'h2l' %}selected{% endif %}>
+            Price: high to low
+          </option>
+        </select>
+        <button type="submit" class="sort-submit">
+          Apply
+        </button>
+      </form>
+    </div>
+    {% if subcategories %}
+      <nav class="subcategory-chips" aria-label="Subcategories">
+        {% for sub in subcategories %}
+          <a href="?category={{ category|urlencode }}&amp;subcategory={{ sub.slug|urlencode }}" {% if subcategory == sub.slug %}aria-current="page"{% endif %}>
+            {{ sub.name }}
+          </a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+    <p class="result-count">
+      {{ products|length }} good thing{{ products|length|pluralize }} to discover
+    </p>
+    <div class="shop-grid">
+      {% for product in products %}
+        {% include 'includes/product_card.html' %}
+      {% empty %}
+        <div class="empty-state">
+          <span class="empty-symbol" aria-hidden="true">
+            ✳
+          </span>
+          <h2>
+            No matches just yet.
+          </h2>
+          <p>
+            Try a different search or explore the whole collection.
+          </p>
+          <a class="btn btn-green" href="{% url 'products' %}">
+            Explore everything ↗
+          </a>
+        </div>
+      {% endfor %}
     </div>
   </section>
 {% endblock %}
-
-

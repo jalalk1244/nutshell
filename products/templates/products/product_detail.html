@@ -1,187 +1,235 @@
 {% extends 'base.html' %}
-{% load static %}
-{% load product_tags %}
-
-
-{% block content %}
-
 {% load crispy_forms_tags %}
-    <section class="container bg-creamy py-1 my-3">
-    <div class="row my-5">
-        <div class="col-12 col-md-6">
-            {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ prodcut.name }}">
-                {% else %}
-                    <img src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
-                {% endif %}
-        </div>
-        <div class="col-12 col-md-6">
-            <h3>{{ product.name }}</h3>
-            <p>${{ product.price }}</p>
-            <div class="d-flex flex-row user-ratings mb-3 align-items-center">
-                <div class="ratings">
-                    {% for star in star_range %}
-                        <i class="fa fa-star"></i>
-                    {% endfor %}
-                </div>
-                <h6 class="text-muted ml-1">{{ average_rating|floatformat:1 }}/5</h6>
-                <a href="#write-review" class="btn btn-light-blue"><i class="fa-solid fa-pen"></i> Write a review</a>
-            </div>
-            <p>
-                {{ product.description }}
-            </p>
-            {% if request.user.is_superuser %}
-                    <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
-                    
-                    <!-- Button trigger modal -->
-                    <button title="Delete Product" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ product.id }}">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body" id="myinput">
-                            <p>Are you sure you want to delte this product?</p>
-                            <p>This action <strong>cannot</strong> be undone!</p>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                            <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-            {% else %}
-                    <form action="{% url 'add_to_bag' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                        <div>
-                            <label for="quantity">Select quantity</label>
-                            <input class="form-control" type="number" name="quantity" id="quantity" min="1" max="99">
-                        </div>
-                        <button class="btn btn-green my-3" type="submit">Add to cart</button>
-                    </form>
-                    {% if is_wished_product == 0 %}
-                        <form method="post" action="{% url 'add_to_wishlist' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  title="Add to wishlist" class="btn wishlist-btn">
-                            <i class="fa-regular fa-heart"></i>
-                        </button></form>
-                    {% else %}
-                        <form method="post" action="{% url 'remove_from_wishlist' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  title="Remove from wishlist" class="btn wishlist-btn">
-                            <i class="fa-solid fa-heart"></i>
-                        </button></form>
-                    {% endif %}
-            {% endif %}
-        </div>
-    </div>
-  </section>
-  <section class="container-fluid my-3">
-    <h1>You may also like:</h1>
-    <div class="row">
-        {% for product in related_products %}
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-stretch my-3">
-            <div class="card product-card">
-                <a href="{% url 'product_detail' product.id %}">
-                {% if product.image %}
-                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ prodcut.name }}">
-                {% else %}
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/08/04/09/05/coming-soon-1568623__340.jpg" alt="image comming soon">
-                {% endif %}
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }} <br> ${{ product.price }}</h5>
-                    <div>
-                        <p class="card-text">This is a test for the products cards</p>
-                    </div>
-                    {% if request.user.is_superuser %}
-                        <a class="btn btn-green my-3" href="{% url 'edit_product' product.id %}">Edit</a>
-
-                        <!-- Button trigger modal -->
-                        <button type="button" title="Delete Product" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ product.id }}">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                        
-                        <!-- Modal -->
-                        <div class="modal fade" id="modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body" id="myinput">
-                                <p>Are you sure you want to delete this product?</p>
-                                <p>This action <strong>cannot</strong> be undone!</p>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-
-                    {% else %}
-                        <a class="btn btn-green my-3" href="{% url 'product_detail' product.id %}">Add to cart</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-  </section>
-
-  <section class="container-fluid my-3">
-    <h3 class="font-weight-bold">Customer Reviews</h3>
-    {% for rating in product_ratings %}
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex flex-row user-ratings">
-                <div class="ratings">
-                {% for star in rating.rating|calc_stars %}
-                <i class="fa fa-star"></i>
-                {% endfor %}
-                </div>
-            </div>
-            <p class="font-weight-bold text-green">{{ rating.title }}</p>
-            <p class="text-muted">{{ rating.user.username }} on {{ rating.date_added|date:'Y-m-d' }}</p>
-            <p>{{ rating.comment }}</p>
-        </div>
-    </div>
-    <hr class="text-green">
-    {% endfor %}
-    <div class="row justify-content-center" id="write-review">
-        {% if user.is_authenticated %}
-        <div class="col-12 col-md-6">
-            <h5>Add your review of the product</h5>
-            <form action="{% url 'product_detail' product.id %}" method="POST">
-                {% csrf_token %}
-                {{product_rating_form.title|as_crispy_field}}
-                {{product_rating_form.rating|as_crispy_field}}
-                {{product_rating_form.comment|as_crispy_field}}
-                <button class="btn btn-green" type="submit">Submit</button>
-            </form>
-        </div>
-        {% else %}
-        <p><a class="text-green" href="{% url 'account_login' %}">Login</a> to write a review on the product</p>
-        {% endif %}
-    </div>
-  </section>
+{% block extra_title %}
+  — {{ product.name }}
 {% endblock %}
-
-{% block postload_js %}
-  <script>
-    window.onload = () => {
-        document.getElementById("quantity").defaultValue = 1;
-    }
-  </script>
+{% block content %}
+  <div class="page-shell">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'products' %}">
+        The collection
+      </a>
+      <span>
+        /
+      </span>
+      {% if product.category %}
+        <a href="{% url 'products' %}?category={{ product.category.slug }}">
+          {{ product.category.name }}
+        </a>
+        <span>
+          /
+        </span>
+      {% endif %}
+      <span>
+        {{ product.name }}
+      </span>
+    </nav>
+    <section class="product-layout">
+      <div class="product-photo">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" fetchpriority="high">
+        {% else %}
+          <div class="image-placeholder">
+            <span aria-hidden="true">
+              ✳
+            </span>
+            <span>
+              {{ product.name }}
+            </span>
+          </div>
+        {% endif %}
+        <span class="photo-caption">
+          Good things come by the handful.
+        </span>
+      </div>
+      <div class="product-copy">
+        <p class="eyebrow">
+          {{ product.category.name|default:'Everyday goodness' }}
+        </p>
+        <h1>
+          {{ product.name }}
+        </h1>
+        <div class="product-rating">
+          <span class="stars" aria-label="{{ avg }} rounded stars out of 5">
+            {% for star in star_range %}
+              ★
+            {% endfor %}
+            {% if not avg %}
+              ☆
+            {% endif %}
+          </span>
+          <span>
+            {{ average_rating|floatformat:1 }}/5
+          </span>
+          <a href="#reviews">
+            {{ product_ratings|length }} review{{ product_ratings|length|pluralize }}
+          </a>
+        </div>
+        <p class="product-price">
+          ${{ product.price|floatformat:2 }}
+        </p>
+        <div class="product-description">
+          {{ product.description|linebreaks }}
+        </div>
+        {% if request.user.is_superuser %}
+          <div class="management-actions">
+            <a class="btn btn-green" href="{% url 'edit_product' product.id %}">
+              Edit product
+            </a>
+            <details class="delete-confirm">
+              <summary>
+                Delete product
+              </summary>
+              <p>
+                Delete this product? This cannot be undone.
+              </p>
+              <form method="post" action="{% url 'delete_product' product.id %}">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">
+                  Confirm deletion
+                </button>
+              </form>
+            </details>
+          </div>
+        {% else %}
+          <form class="add-to-bag" action="{% url 'add_to_bag' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <div class="quantity-field">
+              <label for="quantity">
+                Quantity
+              </label>
+              <input type="number" name="quantity" id="quantity" min="1" max="99" value="1" required>
+            </div>
+            <button class="btn btn-green" type="submit">
+              Add to bag
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <use href="#icon-bag"/>
+              </svg>
+            </button>
+          </form>
+          <form class="wishlist-form" method="post" action="{% if is_wished_product %}{% url 'remove_from_wishlist' product.id %}{% else %}{% url 'add_to_wishlist' product.id %}{% endif %}">
+            {% csrf_token %}
+            <button type="submit">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <use href="#icon-heart"/>
+              </svg>
+              {% if is_wished_product %}
+                Remove from wishlist
+              {% else %}
+                Save for another day
+              {% endif %}
+            </button>
+          </form>
+        {% endif %}
+        <div class="delivery-note">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <use href="#icon-bag"/>
+          </svg>
+          <div>
+            <strong>
+              A little extra goodness
+            </strong>
+            <p>
+              Free delivery from $25. Otherwise, just $3.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="reviews-section" id="reviews">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">
+            From the community
+          </p>
+          <h2>
+            A few words, a little crunch.
+          </h2>
+        </div>
+        <a class="text-link" href="#write-review">
+          Leave a review ↗
+        </a>
+      </div>
+      <div class="reviews-layout">
+        <div class="review-list">
+          {% for review in product_ratings %}
+            <article class="review-card">
+              <div>
+                <span class="stars" aria-label="{{ review.rating }} out of 5 stars">
+                  {{ review.rating }}/5 ★
+                </span>
+                <time datetime="{{ review.date_added|date:'Y-m-d' }}">
+                  {{ review.date_added|date:'M j, Y' }}
+                </time>
+              </div>
+              <h3>
+                {{ review.title }}
+              </h3>
+              <p>
+                {{ review.comment }}
+              </p>
+              <span class="review-author">
+                {{ review.user.username }}
+              </span>
+            </article>
+          {% empty %}
+            <div class="empty-review">
+              <h3>
+                Be the first to share a handful.
+              </h3>
+              <p>
+                Tried it? Tell us what you think.
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="review-form-panel" id="write-review">
+          <h3>
+            Your thoughts?
+          </h3>
+          <p>
+            A little feedback goes a long way.
+          </p>
+          {% if user.is_authenticated %}
+            <form action="{% url 'product_detail' product.id %}" method="post">
+              {% csrf_token %}
+              {{ product_rating_form|crispy }}
+              <button class="btn btn-green" type="submit">
+                Share your review ↗
+              </button>
+            </form>
+          {% else %}
+            <p>
+              <a class="btn btn-outline-green" href="{% url 'account_login' %}?next={{ request.path|urlencode }}%23write-review">
+                Sign in to leave a review
+              </a>
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+    {% if related_products %}
+      <section class="related-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">
+              Keep a good thing going
+            </p>
+            <h2>
+              You might love these, too.
+            </h2>
+          </div>
+          <a class="text-link" href="{% url 'products' %}">
+            Shop all ↗
+          </a>
+        </div>
+        <div class="shop-grid">
+          {% for product in related_products %}
+            {% include 'includes/product_card.html' %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </div>
 {% endblock %}

@@ -12,44 +12,25 @@ from .forms import ReviewForm, ProductForm
 # Create your views here.
 def products(request):
     '''View for rendering the products'''
-    products = Product.objects.all()
-    category = None
-    subcategory = None
-    sort = None
-    sort_by = 'sku'
-    subcategories = []
-
-    if request.GET:
-        if 'sort' in request.GET:
-            sort_key = request.GET['sort']
-            if sort_key == 'l2h':
-                sort_by = 'price'
-            else:
-                sort_by = '-price'
-            if 'category' not in request.GET:
-                products = Product.objects.all().order_by(sort_by)
-
-        if 'category' in request.GET:
-            category = request.GET['category']
-            products = Product.objects.filter(
-                category__slug=category).order_by(sort_by)
-            subcategories = Subcategory.objects.filter(
-                parent_category__slug=category)
-            if 'subcategory' in request.GET:
-                subcategory = request.GET['subcategory']
-                products = Product.objects.filter(
-                    sub_category__slug=subcategory).order_by(sort_by)
-
-        if 'q' in request.GET:
-            q = request.GET['q']
-            products = Product.objects.filter(
-                Q(name__icontains=q) | Q(description__icontains=q))
-
+    catalogue = Product.objects.select_related('category', 'sub_category').all()
+    category = request.GET.get('category') or None
+    subcategory = request.GET.get('subcategory') or None
+    subcategories = Subcategory.objects.none()
+    if category:
+        catalogue = catalogue.filter(category__slug=category)
+        subcategories = Subcategory.objects.filter(parent_category__slug=category)
+    if subcategory:
+        catalogue = catalogue.filter(sub_category__slug=subcategory)
+    query = request.GET.get('q', '').strip()
+    if query:
+        catalogue = catalogue.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    sort_by = {'l2h': 'price', 'h2l': '-price'}.get(request.GET.get('sort'), 'sku')
     context = {
-        'products': products,
+        'products': catalogue.order_by(sort_by, 'pk'),
         'category': category,
         'subcategory': subcategory,
         'subcategories': subcategories,
+        'categories': Category.objects.all().order_by('name'),
     }
     return render(request, 'products/products.html', context)
 

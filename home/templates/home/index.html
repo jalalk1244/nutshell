@@ -1,60 +1,147 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-<section class="container bg-creamy mt-4 welcome-section">
-    <div class="row pb-5">
-      <div class="col-12 col-md-6">
-        <h2>Have a Craving for healthy snacks?</h2>
-        <h3>Go Nuts!</h3>
-        <p>Want to skip candies and other sweets but still enjoy snacking? Buy organic dried fruits online for healthy
-            snacking. For nut enthusiasts, Nutshell is the finest site to buy nuts online. Discover nutritious snacks
-            for adults as well as healthy snacks for children.</p>
-          <a href="{% url 'products' %}" class="btn btn-green">Shop Now</a>
+  <section class="home-hero page-shell">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        The everyday goodness collection
+      </p>
+      <h1>
+        A little crunch.
+        <br>
+        A lot to love.
+      </h1>
+      <p class="hero-description">
+        From the first handful to the last little bite. Discover nuts, dried fruits and seeds made for your everyday moments.
+      </p>
+      <a class="btn btn-green" href="{% url 'products' %}">
+        Find your favourites
+        <svg>
+          <use href="#icon-arrow"/>
+        </svg>
+      </a>
+      <div class="hero-footnote">
+        <span class="little-sun">
+          ✳
+        </span>
+        Simple snacks. Good company.
       </div>
-      <div class="col-12 col-md-6"> <img class="landing-section-image" src="{% static 'media/landing_section.jpg' %}" alt="Nuts"> </div>
+    </div>
+    <div class="hero-image">
+      <img src="{% static 'media/landing_section.jpg' %}" alt="An assortment of nuts, seeds and dried fruits in bowls" fetchpriority="high">
+      <span class="hero-stamp">
+        GOOD
+        <br>
+        BY THE
+        <br>
+        HANDFUL
+        <span>
+          ✳
+        </span>
+      </span>
+    </div>
+    <span class="hero-number" aria-hidden="true">
+      01 / Everyday favourites
+    </span>
+  </section>
+  <div class="goodness-strip">
+    <span>
+      For the desk drawer
+    </span>
+    <span aria-hidden="true">
+      ✳
+    </span>
+    <span>
+      For the trail
+    </span>
+    <span aria-hidden="true">
+      ✳
+    </span>
+    <span>
+      For the in-between
+    </span>
+    <span aria-hidden="true">
+      ✳
+    </span>
+    <span>
+      For a little you-time
+    </span>
+  </div>
+  <section class="collection-section page-shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">
+          Find your kind of good
+        </p>
+        <h2>
+          What are you craving?
+        </h2>
+      </div>
+      <a class="text-link" href="{% url 'products' %}">
+        Explore everything
+        <span>
+          ↗
+        </span>
+      </a>
+    </div>
+    <div class="category-grid">
+      <a class="category-card" href="{% url 'products' %}?category=nuts">
+        <img src="{% static 'media/organic-dry-fruit-mix.jpg' %}" alt="A selection of nuts" loading="lazy">
+        <div>
+          <span>
+            01 / The classics
+          </span>
+          <h3>
+            Nuts
+            <span>
+              ↗
+            </span>
+          </h3>
+        </div>
+      </a>
+      <a class="category-card" href="{% url 'products' %}?category=dry-fruits">
+        <img src="{% static 'media/dry_fruits.jpg' %}" alt="A colourful selection of dried fruit" loading="lazy">
+        <div>
+          <span>
+            02 / A little sweetness
+          </span>
+          <h3>
+            Dried fruits
+            <span>
+              ↗
+            </span>
+          </h3>
+        </div>
+      </a>
+      <a class="category-card" href="{% url 'products' %}?category=seeds">
+        <img src="{% static 'media/seeds.jpg' %}" alt="Seeds for snacking and sprinkling" loading="lazy">
+        <div>
+          <span>
+            03 / Small but mighty
+          </span>
+          <h3>
+            Seeds
+            <span>
+              ↗
+            </span>
+          </h3>
+        </div>
+      </a>
     </div>
   </section>
-  <section class="container-fluid categories-section">
-    <h3>What are you nuts About?</h3>
-    <div class="row py-5 px-3">
-      <div class="col d-flex flex-column justify-content-center align-items-center my-3">
-          <a href="{% url 'products' %}?category=nuts">
-              <img src="{% static 'media/organic-dry-fruit-mix.jpg' %}"
-                  alt="organic dry fruit mix">
-          </a>
-          <span class="text-center">
-              NUTS
-          </span>
-      </div>
-      <div class="col d-flex flex-column justify-content-center align-items-center my-3">
-          <a href="{% url 'products' %}?category=dry-fruits">
-              <img src="{% static 'media/dry_fruits.jpg' %}"
-                  alt="dry fruits">
-          </a>
-          <span class="text-center">
-              DRY FRUITS
-          </span>
-      </div>
-      <div class="col d-flex flex-column justify-content-center align-items-center my-3">
-          <a href="{% url 'products' %}?category=organic-products">
-              <img src="{% static 'media/organic_fruits.jpg' %}"
-                  alt="organic fruits">
-          </a>
-          <span class="text-center">
-              ORGANIC PRODUCTS
-          </span>
-      </div>
-      <div class="col d-flex flex-column justify-content-center align-items-center my-3">
-          <a href="{% url 'products' %}?category=seeds">
-              <img src="{% static 'media/seeds.jpg' %}"
-                  alt="seeds">
-          </a>
-          <span class="text-center">
-              SEEDS
-          </span>
-      </div>
-      
-    </div>
+  <section class="everyday-note page-shell">
+    <span aria-hidden="true">
+      ✳
+    </span>
+    <p>
+      Make room for the little things.
+      <br>
+      <em>
+        Especially the delicious ones.
+      </em>
+    </p>
+    <a class="btn btn-outline-green" href="{% url 'products' %}">
+      Take a look around ↗
+    </a>
   </section>
 {% endblock %}

@@ -67,6 +67,23 @@ class ProductTests(TestCase):
         self.assertEqual(response.context['avg'], 0)
         self.assertEqual(response.context['average_rating'], 0)
 
+    def test_catalogue_search_sort_and_category_work_together(self):
+        from .models import Category, Subcategory
+        nuts = Category.objects.create(name='Nuts', slug='nuts')
+        seeds = Category.objects.create(name='Seeds', slug='seeds')
+        raw = Subcategory.objects.create(name='Raw', slug='raw', parent_category=nuts)
+        self.product.category = nuts
+        self.product.sub_category = raw
+        self.product.save()
+        expensive = make_product(name='Premium walnuts', slug='premium', price='8.00', category=nuts, sub_category=raw)
+        make_product(name='Walnut seeds', slug='seed-product', price='1.00', category=seeds)
+        response = self.client.get(reverse('products'), {'category': 'nuts', 'q': 'walnut', 'sort': 'h2l'})
+        self.assertEqual(list(response.context['products']), [expensive, self.product])
+        response = self.client.get(reverse('products'), {'category': 'seeds', 'subcategory': 'raw'})
+        self.assertEqual(list(response.context['products']), [])
+        response = self.client.get(reverse('products'), {'category': 'nuts', 'subcategory': 'raw', 'q': 'missing'})
+        self.assertContains(response, 'No matches just yet.')
+
     def test_anonymous_review_redirects(self):
         response = self.client.post(reverse('product_detail', args=[self.product.pk]), {'title': 'Good', 'rating': 5})
         self.assertEqual(response.status_code, 302)

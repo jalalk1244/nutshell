@@ -1,322 +1,241 @@
-{% load static %}
-{% load product_tags %}
-
+{% load static product_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-
-        {% block meta %}
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description"
-              content="Buy online organic dry fruits as healthy snacks. 
-              Nutshell is the best place to buy nuts online for nut lovers. 
-              Discover healthy snacks for adults and healthy snacks for kids.">
-            <meta name="keywords"
-              content="Nuts, healthy snacks, healthy snacks for adults, healthy 
-              snacks for kids, healthy peanut snack, dry fruits snacks, dry fruits 
-              online, seed snacks, organic dry fruits and nuts, organic dry fruit mix, 
-              online organic dry fruits, best place to buy nuts online">
-        {% endblock %}
-    
-        {% block corecss %}
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
-            <link href="//cdn-images.mailchimp.com/embedcode/classic-071822.css" rel="stylesheet" type="text/css">
-            <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        {% endblock %}
-    
-        {% block extra_css %}
-        {% endblock %}
-    
-        {% block corejs %}
-            <!-- fontawesome -->
-            <script src="https://kit.fontawesome.com/6d150c6f4b.js" crossorigin="anonymous"></script>
-
-           <!-- jquery -->
-            <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
-
-            <!-- Bootstrap -->
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
-
-            <!-- Stripe -->
-            <script src="https://js.stripe.com/v3/"></script>
-
-        {% endblock %}
-    
-        {% block extra_js %}
-        {% endblock %}
-    
-        <title>Nutshell {% block extra_title %}{% endblock %}</title>
-      </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-blue normal-text-color">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <a class="nav-link d-lg-none" title="Wishlist" href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
-          <a class="nav-link d-lg-none" title="Cart" href="{% url 'bag' %}">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span class='badge badge-warning' id='lblCartCount'>{% number_of_cart_items request %}</span>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Discover nuts, dried fruits and seeds at Nutshell. Simple snacks for everyday moments.">
+    <title>
+      Nutshell
+      {% block extra_title %}
+      {% endblock %}
+    </title>
+    {% block corecss %}
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    {% endblock %}
+    {% block extra_css %}
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=botanical-mobile-menu-1">
+    {% block corejs %}
+      <script src="https://kit.fontawesome.com/6d150c6f4b.js" crossorigin="anonymous" defer>
+      </script>
+      <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous">
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer>
+      </script>
+    {% endblock %}
+    {% block extra_js %}
+    {% endblock %}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">
+      Skip to content
+    </a>
+    {% include 'includes/icons.html' %}
+    <div class="announcement">
+      A little goodness, every day.
+      <span>
+        Free delivery on orders $25 and over
+      </span>
+    </div>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="wordmark" href="{% url 'home' %}" aria-label="Nutshell home">nutshell<span>.</span></a>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="{% url 'products' %}" {% if request.resolver_match.url_name == 'products' %}aria-current="page"{% endif %}>
+            Shop all
           </a>
-
-          <a class="nav-link dropdown-toggle d-lg-none" href="#" id="navbarDropdown1" role="button"
-            data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-regular fa-user"></i>
+          <a href="{% url 'products' %}?category=nuts">
+            Nuts
           </a>
-          <div class="dropdown-menu account-dropdown" aria-labelledby="navbarDropdown1">
-            {% if user.is_authenticated %}
-            <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-            <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-            {% if user.is_staff %}
-            <a class="dropdown-item" href="{% url 'admin:index' %}">Admin page</a>
-            {% endif %}
-            {% else %}
-            <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
-            <a class="dropdown-item" href="{% url 'account_signup' %}">SignUp</a>
-            {% endif %}
-          </div>
-    
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto d-lg-flex justify-content-around w-100">
-              <li class="nav-item d-lg-none">
-                <a class="nav-link " href="{% url 'products' %}?category=nuts">NUTS</a>
-              </li>
-              <li class="nav-item d-lg-none">
-                <a class="nav-link " href="{% url 'products' %}?category=organic-products">ORGANIC PRODUCTS</a>
-              </li>
-              <li class="nav-item d-lg-none">
-                <a class="nav-link " href="{% url 'products' %}?category=dry-fruits">DRY FRUITS</a>
-              </li>
-              <li class="nav-item d-lg-none">
-                <a class="nav-link " href="{% url 'products' %}?category=seeds">SEEDS</a>
-              </li>
-    
-              <div class="li-items d-lg-flex">
-                <li class="nav-item mx-5 d-none d-lg-block">
-                  <a class="nav-link dropdown-toggle d-none d-lg-block" href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-regular fa-user"></i>
-                </a>
-                <div class="dropdown-menu account-dropdown" aria-labelledby="navbarDropdown">
-                  {% if user.is_authenticated %}
-                  <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                  <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                  {% if user.is_staff %}
-                    <a class="dropdown-item" href="{% url 'admin:index' %}">Admin page</a>
-                    <a class="dropdown-item" href="{% url 'add_new_product' %}">Add a Product</a>
-                  {% endif %}
-                  {% else %}
-                  <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
-                  <a class="dropdown-item" href="{% url 'account_signup' %}">SignUp</a>
-                  {% endif %}
-                </div>
-                </li>
-
-                <form class="d-flex" action="{% url 'products' %}">
-                  <div class="input-group">
-                    <input type="text" name="q" class="form-control h-100" id="search" placeholder="Search for a Product">
-                    <div class="input-group-append">
-                      <button class="btn btn-light" type="submit">
-                        <i class="fa fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <li class="nav-item">
-                <a class="d-none d-lg-block navbar-brand" href="{% url 'home' %}"><strong class="text-green">Nutshell</strong></a>
-              </li>
-              <div class="li-items d-lg-flex">
-                <li class="nav-item mx-5 d-none d-lg-block">
-                  <a class="nav-link" title="Cart" href="{% url 'bag' %}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class='badge badge-warning' id='lblCartCount2'> {% number_of_cart_items request %} </span>
-                  </a>
-                </li>
-                <li class="nav-item mx-5 d-none d-lg-block">
-                  <a class="nav-link" title="Wishlist" href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
-                </li>
-              </div>
-            </ul>
-          </div>
+          <a href="{% url 'products' %}?category=dry-fruits">
+            Dried fruits
+          </a>
+          <a href="{% url 'products' %}?category=seeds">
+            Seeds
+          </a>
         </nav>
-        <div class="container-fluid bg-sky-blue">
-          <div class="row d-none d-lg-block pt-3">
-            <div class="col">
-              <ul class="list-group list-group-horizontal justify-content-center categories-list">
-                <li class="nav-item mx-3">
-                  <a class="nav-link " href="{% url 'products' %}?category=nuts">NUTS</a>
-                </li>
-                <li class="nav-item mx-3">
-                  <a class="nav-link " href="{% url 'products' %}?category=organic-product">ORGANIC PRODUCTS</a>
-                </li>
-                <li class="nav-item mx-3">
-                  <a class="nav-link " href="{% url 'products' %}?category=dry-fruits">DRY FRUITS</a>
-                </li>
-                <li class="nav-item mx-3">
-                  <a class="nav-link " href="{% url 'products' %}?category=seeds">SEEDS</a>
-                </li>
-              </ul>
+        <div class="header-actions">
+          <details class="search-menu">
+            <summary class="icon-button" aria-label="Search products">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <use href="#icon-search"/>
+              </svg>
+            </summary>
+            <form class="search-popover" action="{% url 'products' %}" method="get">
+              <label for="header-search">
+                Find your next favourite
+              </label>
+              <div>
+                <input id="header-search" name="q" type="search" placeholder="Search nuts, fruit, seeds…" required>
+                <button class="btn btn-green" type="submit">
+                  Search
+                </button>
+              </div>
+            </form>
+          </details>
+          <details class="account-menu">
+            <summary class="icon-button" aria-label="Your account">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <use href="#icon-user"/>
+              </svg>
+            </summary>
+            <div class="account-popover">
+              {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">
+                  My profile
+                </a>
+                <a href="{% url 'wishlist' %}">
+                  My wishlist
+                </a>
+                {% if user.is_superuser %}
+                  <a href="{% url 'add_new_product' %}">
+                    Add a product
+                  </a>
+                {% endif %}
+                {% if user.is_staff %}
+                  <a href="{% url 'admin:index' %}">
+                    Administration
+                  </a>
+                {% endif %}
+                <a href="{% url 'account_logout' %}">
+                  Sign out
+                </a>
+              {% else %}
+                <a href="{% url 'account_login' %}">
+                  Sign in
+                </a>
+                <a href="{% url 'account_signup' %}">
+                  Create an account
+                </a>
+              {% endif %}
             </div>
-          </div>
-        </div>
-      </header>
-      <!-- Offers -->
-      <div class="utility-nav">
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <p class="small text-center"> <strong>30% of Organic Products</strong>
-              </p>
-            </div>
-          </div>
+          </details>
+          <a class="icon-button wishlist-link" href="{% url 'wishlist' %}" aria-label="Your wishlist">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <use href="#icon-heart"/>
+            </svg>
+          </a>
+          <a class="bag-link" href="{% url 'bag' %}" aria-label="Shopping bag">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <use href="#icon-bag"/>
+            </svg>
+            <span class="bag-label">
+              Bag
+            </span>
+            <span class="bag-count">
+              {% number_of_cart_items request as cart_count %}
+              {{ cart_count|default:'0' }}
+            </span>
+          </a>
+          <details class="mobile-menu">
+            <summary class="icon-button" aria-label="Navigation menu" aria-controls="mobile-navigation">
+              <svg class="menu-hamburger" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+              <svg class="menu-close" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+            </summary>
+      <nav class="mobile-nav" id="mobile-navigation" aria-label="Browse categories">
+        <a href="{% url 'products' %}">
+          Shop all
+        </a>
+        <a href="{% url 'products' %}?category=nuts">
+          Nuts
+        </a>
+        <a href="{% url 'products' %}?category=dry-fruits">
+          Dried fruits
+        </a>
+        <a href="{% url 'products' %}?category=seeds">
+          Seeds
+        </a>
+      </nav>
+          </details>
         </div>
       </div>
-      <!-- Messages -->
-      {% if messages %}
-      <div class="container mt-4">
-        <div class="row">
-            <div class="col">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                     {{ message|safe }}
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    {% endif %}
 
+    </header>
+    {% if messages %}
+      <div class="message-stack page-shell" role="status">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button type="button" class="dismiss-message" aria-label="Dismiss message">
+              ×
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <main id="main-content">
       {% block content %}
       {% endblock %}
-
-      <footer class="container-fluid bg-blue normal-text-color">
-        <div class="row py-3">
-          <div class="col-12 col-md-4 align-self-center footer-socials">
-            <ul class="list-inline social-links d-flex align-items-center justify-content-center">
-              <li class="list-inline-item">
-                <a target="_blank" href="https://www.facebook.com/profile.php?id=100089215195040" rel="noopener">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                  <span class="sr-only">Facebook</span>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a target="_blank" href="https://www.instagram.com/" rel="noopener">
-                  <i class="fa fa-instagram" aria-hidden="true"></i>
-                  <span class="sr-only">Instagram</span>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a target="_blank" href="https://www.snapchat.com/" rel="noopener">
-                  <i class="fa fa-snapchat" aria-hidden="true"></i>
-                  <span class="sr-only">Snapchat</span>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a target="_blank" href="https://twitter.com/" rel="noopener">
-                  <i class="fa fa-twitter" aria-hidden="true"></i>
-                  <span class="sr-only">Twitter</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <!-- Begin Mailchimp Signup Form -->
-          <div class="col-12 col-md-4 align-self-end d-flex align-items-center justify-content-center bg-blue">
-            <div id="mc_embed_signup">
-              <form
-                action="https://herokuapp.us21.list-manage.com/subscribe/post?u=5139bc4bbd59a624a60d87089&amp;id=07435d9303&amp;f_id=002fdfe1f0"
-                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate bg-blue"
-                target="_blank" novalidate>
-                <div id="mc_embed_signup_scroll">
-                  <h5>Subscribe to our newsletter</h5>
-                  <div class="d-flex flex-column flex-md-row w-100">
-
-                    <div class="mc-field-group">
-                      <input type="email" value="" name="EMAIL" class="required email h-90" placeholder="Email Adress"
-                        id="mce-EMAIL" required>
-                    </div>
-                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
-                        name="b_5139bc4bbd59a624a60d87089_07435d9303" tabindex="-1" value="">
-                    </div>
-                    <!-- <div class="optionalParent"> -->
-                    <div class="clear foot h-100">
-                      <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe"
-                        class="btn btn-green" data-bs-toggle="modal" data-bs-target="#modal-subscription">
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <!-- Subscription Modal -->
-          <div class="modal fade" id="modal-subscription" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content bg-sky-blue">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Thank You for Subscribing</h5>
-                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body" id="myinput">
-                  <p>Thank you for subscribing to the nutshell newsletter</p>
-                  <p>We will send you cupons, new products information and more</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--End mc_embed_signup-->
-
-          <div class="col-12 col-md-4 align-self-start d-flex align-items-center justify-content-center">
-            <p class="">
-              &#9426; Nutshell 2023 <br>
-              <a href="https://www.privacypolicygenerator.info/live.php?token=CS5whtRDH5kBNwXZlvJcAujEtuJ1V42t" target="_blank">Privacy Policy</a>
-            </p>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-top page-shell">
+        <div>
+          <a class="wordmark" href="{% url 'home' %}">nutshell<span>.</span></a>
+          <h2>
+            Good things.
             <br>
-          </div>
+            In a nutshell.
+          </h2>
+          <p>
+            Nuts, fruits and seeds for your everyday.
+          </p>
         </div>
-
-
-      </footer>
-      <script src="{% static 'scripts/base_script.js' %}"></script>
-
-      {% block postload_js %}
-      {% endblock %}
-
-      <!-- Mailchimp -->
-      <script src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'>
-      </script>
-      <script>
-        (function ($) {
-          window.fnames = new Array();
-          window.ftypes = new Array();
-          fnames[0] = 'EMAIL';
-          ftypes[0] = 'email';
-          fnames[1] = 'FNAME';
-          ftypes[1] = 'text';
-          fnames[2] = 'LNAME';
-          ftypes[2] = 'text';
-          fnames[3] = 'ADDRESS';
-          ftypes[3] = 'address';
-          fnames[4] = 'PHONE';
-          ftypes[4] = 'phone';
-          fnames[5] = 'BIRTHDAY';
-          ftypes[5] = 'birthday';
-        }(jQuery));
-        var $mcj = jQuery.noConflict(true);
-      </script>
-</body>
+        <div class="footer-links">
+          <p class="eyebrow">
+            Explore
+          </p>
+          <a href="{% url 'products' %}">
+            The whole collection
+          </a>
+          <a href="{% url 'wishlist' %}">
+            Your wishlist
+          </a>
+          <a href="{% url 'profile' %}">
+            Your account
+          </a>
+        </div>
+        <div class="footer-newsletter">
+          <p class="eyebrow">
+            A little note from us
+          </p>
+          <h3>
+            Stay in the loop.
+          </h3>
+          <p>
+            Product news and offers, straight to your inbox.
+          </p>
+          <form action="https://herokuapp.us21.list-manage.com/subscribe/post?u=5139bc4bbd59a624a60d87089&amp;id=07435d9303&amp;f_id=002fdfe1f0" method="post" target="_blank">
+            <label class="sr-only" for="newsletter-email">
+              Email address
+            </label>
+            <input id="newsletter-email" type="email" name="EMAIL" placeholder="Your email address" required>
+            <div hidden aria-hidden="true">
+              <input name="b_5139bc4bbd59a624a60d87089_07435d9303" tabindex="-1" autocomplete="off">
+            </div>
+            <button type="submit" aria-label="Subscribe to the newsletter">
+              ↗
+            </button>
+          </form>
+          <small>
+            Opens our newsletter provider in a new tab.
+          </small>
+        </div>
+      </div>
+      <div class="footer-bottom page-shell">
+        <span>
+          ©
+          {% now 'Y' %}
+          Nutshell
+        </span>
+        <span>
+          Small snacks. Everyday moments.
+        </span>
+      </div>
+    </footer>
+    <script src="{% static 'scripts/base_script.js' %}?v=botanical-mobile-menu-1">
+    </script>
+    {% block postload_js %}
+    {% endblock %}
+  </body>
 </html>

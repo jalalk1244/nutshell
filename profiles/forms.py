@@ -32,4 +32,4 @@ class UserProfileForm(forms.ModelForm):
                 self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'border-black \
                                                 rounded-0 profie-form-input'
-            self.fields[field].label = False
+            self.fields[field].label = field.replace('default_', '').replace('_', ' ').capitalize()
