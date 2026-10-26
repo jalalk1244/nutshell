@@ -265,6 +265,70 @@ class CheckoutTests(TestCase):
         self.assertEqual(self.client.post(reverse('checkout'), {'finish_order': order.order_number}).status_code, 400)
         self.assertTrue(self.client.session['bag'])
 
+    def test_automatic_cart_completion_is_post_only_and_csrf_protected(self):
+        self.prepare()
+        self.assertEqual(self.client.get(reverse('complete_cart')).status_code, 405)
+        self.assertEqual(Client(enforce_csrf_checks=True).post(reverse('complete_cart')).status_code, 403)
+        self.assertTrue(self.client.session['bag'])
+
+    def test_automatic_completion_clears_paid_bag_idempotently(self):
+        order, _, _ = self.prepare()
+        Order.objects.filter(pk=order.pk).update(payment_status='paid')
+        # Rendering alone remains read-only; the browser follows up with a POST.
+        self.client.get(reverse('checkout_success', args=[order.order_number]))
+        self.assertTrue(self.client.session['bag'])
+        response = self.client.post(reverse('complete_cart'))
+        self.assertEqual(response.json(), {'status': 'paid', 'cleared': True})
+        self.assertEqual(self.client.session['bag'], {})
+        self.assertNotIn('checkout_key', self.client.session)
+        self.assertNotIn('checkout_quote', self.client.session)
+        self.assertEqual(self.client.post(reverse('complete_cart')).json(), {'status': 'none', 'cleared': False})
+        self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(OrderLineItem.objects.count(), 1)
+
+    def test_pending_and_failed_payments_do_not_clear_bag(self):
+        order, _, _ = self.prepare()
+        for status in ('pending', 'failed'):
+            Order.objects.filter(pk=order.pk).update(payment_status=status)
+            self.assertEqual(self.client.post(reverse('complete_cart')).json(), {'status': status, 'cleared': False})
+            self.assertTrue(self.client.session['bag'])
+            self.assertIn('checkout_key', self.client.session)
+
+    def test_delayed_success_webhook_then_completion_clears_bag(self):
+        order, _, _ = self.prepare()
+        self.assertFalse(self.client.post(reverse('complete_cart')).json()['cleared'])
+        response = StripeWH_Handler(None).handle_payment_intent_succeeded(event_for(order))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(self.client.post(reverse('complete_cart')).json()['cleared'])
+        self.assertEqual(PaymentEvent.objects.count(), 1)
+
+    def test_automatic_completion_preserves_new_identical_bag(self):
+        order, _, _ = self.prepare()
+        Order.objects.filter(pk=order.pk).update(payment_status='paid')
+        self.client.post(reverse('remove_from_bag', args=[self.product.pk]))
+        self.client.post(reverse('add_to_bag'), {'product_id': self.product.pk, 'quantity': 2})
+        self.assertFalse(self.client.post(reverse('complete_cart')).json()['cleared'])
+        self.assertEqual(self.client.session['bag'][str(self.product.pk)], 2)
+
+    def test_automatic_completion_cannot_use_another_users_order(self):
+        self.client.force_login(self.user)
+        order, _, _ = self.prepare()
+        Order.objects.filter(pk=order.pk).update(payment_status='paid')
+        attacker = Client()
+        attacker.force_login(self.other)
+        session = attacker.session
+        session['checkout_key'] = str(order.checkout_key)
+        session['bag'] = {str(self.product.pk): 3}
+        session.save()
+        self.assertEqual(attacker.post(reverse('complete_cart')).status_code, 404)
+        self.assertEqual(attacker.session['bag'][str(self.product.pk)], 3)
+        self.assertTrue(self.client.session['bag'])
+
+    def test_completion_without_saved_order_leaves_cart_alone(self):
+        self.start()
+        self.assertEqual(self.client.post(reverse('complete_cart')).json(), {'status': 'none', 'cleared': False})
+        self.assertTrue(self.client.session['bag'])
+
 class WebhookTests(TestCase):
     def setUp(self):
         self.order = Order.objects.create(**address(), stripe_pid='pi_test', payment_status='pending', grand_total='12.98')

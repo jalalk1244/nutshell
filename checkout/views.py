@@ -25,6 +25,29 @@ def cart_quote(cart):
     return json.dumps([(item['product_id'], item['quantity'], str(item['product'].price))
                        for item in cart['bag_products']], sort_keys=True)
 
+def clear_paid_checkout_bag(request, order):
+    """Clear only this session's unchanged purchased cart, once payment is verified."""
+    if order.payment_status != 'paid' or str(order.checkout_key) != request.session.get('checkout_key'):
+        return False
+    matches = json.dumps(request.session.get('bag', {}), sort_keys=True) == order.original_bag
+    if matches:
+        request.session['bag'] = {}
+    request.session.pop('checkout_key', None)
+    request.session.pop('checkout_quote', None)
+    return matches
+
+@require_POST
+def complete_cart(request):
+    key = request.session.get('checkout_key')
+    if not key:
+        return JsonResponse({'status': 'none', 'cleared': False})
+    order = Order.objects.filter(checkout_key=key).first()
+    if not order:
+        return JsonResponse({'status': 'none', 'cleared': False})
+    order = authorized_order(request, order.order_number)
+    cleared = clear_paid_checkout_bag(request, order)
+    return JsonResponse({'status': order.payment_status, 'cleared': cleared})
+
 @require_POST
 def cache_checkout_data(request):
     # Persist and authorize the intended order BEFORE allowing Stripe confirmation.
@@ -114,10 +137,7 @@ def checkout(request):
             order = authorized_order(request, request.POST['finish_order'])
             if order.payment_status != 'paid':
                 return HttpResponseBadRequest('Payment confirmation is still pending.')
-            if str(order.checkout_key) == request.session.get('checkout_key'):
-                if json.dumps(request.session.get('bag', {}), sort_keys=True) == order.original_bag:
-                    request.session['bag'] = {}
-                request.session.pop('checkout_key', None)
+            clear_paid_checkout_bag(request, order)
             return redirect('checkout_success', order_number=order.order_number)
         order = Order.objects.filter(checkout_key=request.session.get('checkout_key')).first()
         if not order:

@@ -233,8 +233,14 @@
         </span>
       </div>
     </footer>
+    {% if request.session.checkout_key %}
+      <form id="checkout-cart-sync" action="{% url 'complete_cart' %}" method="post" data-checkout-key="{{ request.session.checkout_key }}" hidden>
+        {% csrf_token %}
+      </form>
+    {% endif %}
     <script src="{% static 'scripts/base_script.js' %}?v=botanical-mobile-menu-1">
     </script>
+    <script src="{% static 'checkout/js/cart_completion.js' %}?v=cart-completion-1" defer></script>
     {% block postload_js %}
     {% endblock %}
   </body>

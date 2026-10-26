@@ -3,7 +3,7 @@
   — Your order
 {% endblock %}
 {% block content %}
-  <section class="page-shell confirmation-page">
+  <section class="page-shell confirmation-page" data-payment-status="{{ order.payment_status }}" data-checkout-key="{{ order.checkout_key }}">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="{% url 'products' %}">
         The collection
