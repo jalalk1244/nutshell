@@ -33,6 +33,46 @@ class ProductTests(TestCase):
         self.assertEqual(self.product.name, 'Walnuts')
         self.assertEqual(Product.objects.count(), 1)
 
+    def test_rendered_edit_form_submits_to_existing_product(self):
+        from html.parser import HTMLParser
+
+        class FormParser(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.forms = []
+                self.active = None
+                self.nested = False
+
+            def handle_starttag(self, tag, attrs):
+                attrs = dict(attrs)
+                if tag == 'form':
+                    self.nested = self.nested or self.active is not None
+                    self.active = {'attrs': attrs, 'csrf': None}
+                    self.forms.append(self.active)
+                elif tag == 'input' and self.active is not None and attrs.get('name') == 'csrfmiddlewaretoken':
+                    self.active['csrf'] = attrs.get('value')
+
+            def handle_endtag(self, tag):
+                if tag == 'form':
+                    self.active = None
+
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.owner)
+        url = reverse('edit_product', args=[self.product.pk])
+        page = client.get(url)
+        parser = FormParser()
+        parser.feed(page.content.decode())
+        edit_form = next(form for form in parser.forms if form['attrs'].get('enctype') == 'multipart/form-data')
+        self.assertEqual(edit_form['attrs']['action'], url)
+        self.assertFalse(parser.nested, 'Product edit and delete forms must be separate.')
+        self.assertEqual(edit_form['attrs']['method'].lower(), 'post')
+        response = client.post(edit_form['attrs']['action'], {
+            **self.data, 'csrfmiddlewaretoken': edit_form['csrf']})
+        self.assertEqual(response.status_code, 302)
+        self.product.refresh_from_db()
+        self.assertEqual(self.product.name, self.data['name'])
+        self.assertEqual(Product.objects.count(), 1)
+
     def test_management_requires_owner(self):
         for user in (None, self.user):
             self.client.logout()

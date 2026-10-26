@@ -1,62 +1,35 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block extra_title %}— Edit {{ product.name }}{% endblock %}
+
 {% block content %}
-<section class="container-fluid bg-creamy">
-    <div class="row">
-        <div class="col">
-            <h2><u>Product Management</u></h2>
+<section class="page-shell py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <p class="eyebrow">Product management</p>
+      <h1>Edit product.</h1>
+      <p class="text-muted">Update {{ product.name }}.</p>
+
+      <form id="product-edit-form" method="post" action="{% url 'edit_product' product.id %}"
+            class="form my-4" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-flex flex-wrap align-items-center mt-4" style="gap:16px">
+          <button class="btn btn-green" type="submit">Update product</button>
+          <a class="text-link" href="{% url 'product_detail' product.id %}">Cancel</a>
         </div>
+      </form>
+
+      <details class="delete-confirm mt-4">
+        <summary>Delete product</summary>
+        <p>This action cannot be undone. Products referenced by an order cannot be deleted.</p>
+        <form method="post" action="{% url 'delete_product' product.id %}">
+          {% csrf_token %}
+          <button class="btn btn-danger" type="submit">Confirm deletion</button>
+        </form>
+      </details>
     </div>
+  </div>
 </section>
-<div class="row my-2">
-    <div class="col text-center">
-        <h1>Edit Product</h1>
-    </div>
-</div>
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-6">
-                <form method="POST" action="{% url 'add_new_product' %}" class="form mb-2" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        {% if field.name != 'image' %}
-                            {{ field | as_crispy_field }}
-                        {% else %}
-                            {{ field }}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="text-right">
-                        <!-- Button trigger modal -->
-                        <button type="button" title="Delete Product" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ product.id }}">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                        
-                        <!-- Modal -->
-                        <div class="modal fade" id="modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body" id="myinput">
-                                <p class="text-left">Are you sure you want to delete this product?</p>
-                                <p class="text-left">This action <strong>cannot</strong> be undone!</p>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-green" type="submit">Update Product</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 {% endblock %}
