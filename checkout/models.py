@@ -1,11 +1,6 @@
-from django.db import models
-
-
 import uuid
 
 from django.db import models
-from django.db.models import Sum
-from django.conf import settings
 
 from django_countries.fields import CountryField
 
@@ -14,7 +9,7 @@ from profiles.models import UserProfile
 
 
 class Order(models.Model):
-    order_number = models.CharField(max_length=32, null=False, editable=False)
+    order_number = models.CharField(max_length=32, null=False, editable=False, unique=True)
     user_profile = models.ForeignKey(
         UserProfile, on_delete=models.SET_NULL,
         null=True, blank=True, related_name='orders')
@@ -42,25 +37,21 @@ class Order(models.Model):
         max_length=254, null=False, blank=False, default=''
     )
 
+    checkout_key = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    payment_status = models.CharField(max_length=12, default='legacy', choices=[
+        ('legacy', 'Unverified legacy order'), ('pending', 'Awaiting payment'),
+        ('failed', 'Payment failed'), ('paid', 'Paid')])
+    currency = models.CharField(max_length=3, default='usd')
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['stripe_pid'],
+            condition=~models.Q(stripe_pid=''), name='unique_nonempty_payment_intent')]
+
     def _generate_order_number(self):
         '''
         Generate a random, unique order number UUID
         '''
         return uuid.uuid4().hex.upper()
-
-    def update_total(self):
-        '''
-        Update grand total each time a line item is adde,
-        accounting for delivery costs.
-        '''
-        self.order_total = self.lineitems.aggregate(
-            Sum('lineitem_total'))['lineitem_total__sum'] or 0
-        if self.order_total > 50:
-            self.delivery_cost = 25
-        else:
-            self.delivery_cost = 0
-        self.grand_total = self.order_total + self.delivery_cost
-        self.save()
 
     def save(self, *args, **kwargs):
         '''
@@ -81,20 +72,34 @@ class OrderLineItem(models.Model):
         on_delete=models.CASCADE, related_name='lineitems'
     )
     product = models.ForeignKey(
-        Product, null=False, blank=False, on_delete=models.CASCADE
+        Product, null=False, blank=False, on_delete=models.PROTECT
     )
-    quantity = models.IntegerField(null=False, blank=False, default=0)
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, editable=False)
+    quantity = models.IntegerField(null=False, blank=False, default=1)
     lineitem_total = models.DecimalField(
-        max_digits=6, decimal_places=2, null=False, blank=False, editable=False
+        max_digits=10, decimal_places=2, null=False, blank=False, editable=False
     )
+
+    class Meta:
+        constraints = [models.CheckConstraint(condition=models.Q(quantity__gte=1, quantity__lte=99), name='order_quantity_1_to_99')]
 
     def save(self, *args, **kwargs):
         '''
         Override the original save method to set the lineitem total
-        and update the order total.
+        from the saved unit-price snapshot. Checkout calculates order totals
+        explicitly in the same transaction as line-item creation.
         '''
-        self.lineitem_total = self.product.price * self.quantity
+        if self.unit_price is None:
+            self.unit_price = self.product.price
+        self.lineitem_total = self.unit_price * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f'SKU {self.product.sku} on order {self.order.order_number}'
+
+
+class PaymentEvent(models.Model):
+    event_id = models.CharField(max_length=255, unique=True)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    event_type = models.CharField(max_length=80)
+    received_at = models.DateTimeField(auto_now_add=True)

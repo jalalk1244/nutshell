@@ -5,6 +5,14 @@ env.py
 __pycache__/
 *.py[cod]
 node_modules/
-.github/
 cloudinary_python.txt
 *.sqlite3
+
+.venv/
+.env
+staticfiles/
+.test-postgres/
+postgres-test.log
+modernize.py
+verify_nutshell.py
+.review/

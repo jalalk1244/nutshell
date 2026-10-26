@@ -1,16 +1,16 @@
 image:
   file: .gitpod.dockerfile
 tasks:
-  - init: . ${GITPOD_REPO_ROOT}/.vscode/init_tasks.sh
-    command: /home/gitpod/.pg_ctl/bin/pg_start > /dev/null
-  - command: . ${GITPOD_REPO_ROOT}/.vscode/uptime.sh &
-vscode:
-  extensions:
-    - ms-python.python
-    - formulahendry.auto-close-tag
-    - eventyret.bootstrap-4-cdn-snippet
-    - hookyqr.beautify
-    - matt-rudge.auto-open-preview-panel
-    - ms-toolsai.jupyter
-    - ms-toolsai.jupyter-keymap
-    - ms-toolsai.jupyter-renderers
+  - name: Nutshell development
+    init: |
+      python -m venv .venv
+      .venv/bin/python -m pip install -r requirements.txt
+    command: |
+      export DEVELOPMENT=1
+      export ALLOWED_HOSTS=localhost,127.0.0.1
+      .venv/bin/python manage.py migrate
+      echo 'Set ALLOWED_HOSTS to your workspace preview hostname before opening a preview.'
+      .venv/bin/python manage.py runserver 0.0.0.0:8000
+ports:
+  - port: 8000
+    onOpen: ignore

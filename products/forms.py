@@ -26,3 +26,9 @@ class ProductForm(forms.ModelForm):
         self.fields['sub_category'].choices = subcategories_name
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded-0'
+
+    def clean_price(self):
+        price = self.cleaned_data["price"]
+        if price <= 0:
+            raise forms.ValidationError("Price must be greater than zero.")
+        return price

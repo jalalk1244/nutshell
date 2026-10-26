@@ -39,7 +39,7 @@
                             <a class="btn btn-green my-3" href="#">
                                 Add to cart
                             </a>
-                            <a href="{% url 'remove_from_wishlist' obj.wished_product.id %}" title="Remove from wishlist" class="btn wishlist-btn"><i class="fa-regular fa-trash-can"></i></a>
+                            <form method="post" action="{% url 'remove_from_wishlist' obj.wished_product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  title="Remove from wishlist" class="btn wishlist-btn"><i class="fa-regular fa-trash-can"></i></button></form>
                         </div>
                     </div>
                 </div>

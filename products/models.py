@@ -73,12 +73,15 @@ class ProductRating(models.Model):
         return self.title
 
     def get_review_rating(self):
-        return self.review_rating
+        return self.rating
 
 
 class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     wished_product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["user", "wished_product"], name="unique_wishlist_product")]
 
     def __str__(self):
         return self.wished_product.name

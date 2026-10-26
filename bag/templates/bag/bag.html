@@ -34,15 +34,15 @@
                                 <div class="row">{{ obj.product.name }}</div>
                             </div>
                             <div class="col">
-                                <a href="{% url 'quantity' obj.product.id %}?minus=True">
+                                <form method="post" action="{% url 'quantity' obj.product.id %}" class="d-inline">{% csrf_token %}<input type="hidden" name="action" value="minus"><button type="submit" >
                                     <i class="fa-solid fa-minus"></i>
-                                </a>
+                                </button></form>
                                 <span class="py-2 px-2 mx-2 border">{{ obj.quantity }}</span>
-                                <a href="{% url 'quantity' obj.product.id %}?plus=True">
+                                <form method="post" action="{% url 'quantity' obj.product.id %}" class="d-inline">{% csrf_token %}<input type="hidden" name="action" value="plus"><button type="submit" >
                                     <i class="fa-regular fa-plus"></i>
-                                </a>
+                                </button></form>
                             </div>
-                            <div class="col">$ {{ obj.product.price }} <a href="{% url 'remove_from_bag' obj.product.id %}"><span class="close">&#10005;</span></a></div>
+                            <div class="col">$ {{ obj.product.price }} <form method="post" action="{% url 'remove_from_bag' obj.product.id %}" class="d-inline">{% csrf_token %}<button type="submit" ><span class="close">&#10005;</span></button></form></div>
                         </div>
 
                     </div>

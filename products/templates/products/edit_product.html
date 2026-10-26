@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <a href="{% url 'delete_product' product.id %}" class="btn btn-primary">Yes</a>
+                                <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
                                 </div>
                             </div>
                             </div>

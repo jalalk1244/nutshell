@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Avg
+from django.views.decorators.http import require_POST, require_http_methods
+from django.http import HttpResponseForbidden
+from decimal import Decimal, ROUND_HALF_UP
 from .models import Product, Category, Subcategory, ProductRating, WishList
 from .forms import ReviewForm, ProductForm
 
@@ -51,6 +54,7 @@ def products(request):
     return render(request, 'products/products.html', context)
 
 
+@require_http_methods(["GET", "POST"])
 def product_detail(request, product_id):
     '''View the product details'''
     product = get_object_or_404(Product, pk=product_id)
@@ -68,7 +72,8 @@ def product_detail(request, product_id):
         is_wished_product = 0
 
     if request.method == 'POST':
-        product = get_object_or_404(Product, pk=product_id)
+        if not request.user.is_authenticated:
+            return redirect('account_login')
         product_rating_form = ReviewForm(request.POST)
         if product_rating_form.is_valid():
             product_rating_form.instance.user = request.user
@@ -82,8 +87,8 @@ def product_detail(request, product_id):
         product_rating_form = ReviewForm()
 
     average_rating = product_review.aggregate(Avg('rating'))['rating__avg']
-    if avg is not None:
-        avg = round(average_rating)
+    if average_rating is not None:
+        avg = int(Decimal(str(average_rating)).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
     else:
         avg = 0
 
@@ -93,6 +98,7 @@ def product_detail(request, product_id):
         'product_rating_form': product_rating_form,
         'product_ratings': product_ratings,
         'avg': avg,
+        'average_rating': average_rating or 0,
         'star_range': range(avg),
         'is_wished_product': is_wished_product,
     }
@@ -112,6 +118,8 @@ def view_wishlist(request):
     return render(request, 'products/wishlist.html', context)
 
 
+@login_required
+@require_POST
 def add_to_wishlist(request, product_id):
     '''A view to add products to the wishlist'''
 
@@ -129,26 +137,24 @@ def add_to_wishlist(request, product_id):
 
 
 @login_required
+@require_POST
 def remove_from_wishlist(request, product_id):
     '''A view to remove products from the wishlist'''
 
     product = get_object_or_404(Product, pk=product_id)
     if product:
-        wished_item, created = WishList.objects.get_or_create(
-            wished_product=product,
-            user=request.user,)
-        wished_item.delete()
+        WishList.objects.filter(wished_product=product, user=request.user).delete()
         messages.success(request, 'Product removed from your wishlist')
 
     return redirect('product_detail', product_id=product.id)
 
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def add_new_product(request):
     '''A view to add new products to the store'''
     if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
+        return HttpResponseForbidden('Only store owners can manage products.')
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -170,15 +176,15 @@ def add_new_product(request):
 
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def edit_product(request, product_id):
     '''A view to edit products of the store'''
     if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
+        return HttpResponseForbidden('Only store owners can manage products.')
 
     product = get_object_or_404(Product, pk=product_id)
     if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
+        form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             product = form.save()
             messages.success(request, 'Successfully edited product')
@@ -198,14 +204,19 @@ def edit_product(request, product_id):
 
 
 @login_required
+@require_POST
 def delete_product(request, product_id):
     '''A view to delete products of the store'''
     if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
+        return HttpResponseForbidden('Only store owners can manage products.')
 
     product = get_object_or_404(Product, pk=product_id)
-    product.delete()
+    from django.db.models.deletion import ProtectedError
+    try:
+        product.delete()
+    except ProtectedError:
+        messages.error(request, "Products referenced by orders cannot be deleted.")
+        return redirect("product_detail", product_id=product.id)
     messages.success(request, 'Product successfuly deleted')
 
     return redirect(reverse('products'))

@@ -12,12 +12,23 @@
                 <div class="col-md-8 cart">
                     <div class="title">
                         <div class="row">
-                            <div class="col"><h4><b>Thank You for your order</b></h4></div>
+                            <div class="col"><h4><b>Your order</b></h4>
+                                {% if order.payment_status == 'paid' %}
+                                <form action="{% url 'checkout' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="finish_order" value="{{ order.order_number }}">
+                                    <button class="btn btn-green" type="submit">Clear purchased items from bag</button>
+                                </form>
+                                {% elif order.payment_status == 'failed' %}
+                                <p>Payment failed. Return to checkout to retry with another payment method.</p>
+                                <a href="{% url 'checkout' %}">Return to checkout</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     <div class="row border-top border-bottom">
                         <div class="row main align-items-center">
-                            <p>Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong></p>
+                            <p>Payment status: <strong>{{ order.get_payment_status_display }}</strong>. Pending payments are confirmed by Stripe; reload this page to check. This page does not confirm a charge.</p>
                                 <div class="col">
                                     <div class="order-confirmation-wrapper p-2 border">
                                         <div class="row">
@@ -58,7 +69,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-12 col-md-8 text-md-right">
-                                                <p class="small mb-0">{{ item.quantity }} @ ${{ item.product.price }} each</p>
+                                                <p class="small mb-0">{{ item.quantity }} @ ${{ item.unit_price|default_if_none:item.product.price }} each</p>
                                             </div>
                                         </div>
                                         {% endfor %}
@@ -83,17 +94,17 @@
                                                 <p class="mb-0 text-black font-weight-bold">Street Adress 1</p>
                                             </div>
                                             <div class="col-12 col-md-8 text-md-right">
-                                                <p class="mb-0">{{ order.street_adress1 }}</p>
+                                                <p class="mb-0">{{ order.street_address1 }}</p>
                                             </div>
                                         </div>
                     
-                                        {% if order.street_adress2 %}
+                                        {% if order.street_address2 %}
                                         <div class="row">
                                             <div class="col-12 col-md-4">
                                                 <p class="mb-0 text-black font-weight-bold">Street Adress 2</p>
                                             </div>
                                             <div class="col-12 col-md-8 text-md-right">
-                                                <p class="mb-0">{{ order.street_adress2 }}</p>
+                                                <p class="mb-0">{{ order.street_address2 }}</p>
                                             </div>
                                         </div>
                                         {% endif %}

@@ -24,7 +24,7 @@
                         <i class="fa fa-star"></i>
                     {% endfor %}
                 </div>
-                <h6 class="text-muted ml-1">{{ avg }}/5</h6>
+                <h6 class="text-muted ml-1">{{ average_rating|floatformat:1 }}/5</h6>
                 <a href="#write-review" class="btn btn-light-blue"><i class="fa-solid fa-pen"></i> Write a review</a>
             </div>
             <p>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                            <a href="{% url 'delete_product' product.id %}" class="btn btn-primary">Yes</a>
+                            <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
                             </div>
                         </div>
                         </div>
@@ -70,13 +70,13 @@
                         <button class="btn btn-green my-3" type="submit">Add to cart</button>
                     </form>
                     {% if is_wished_product == 0 %}
-                        <a href="{% url 'add_to_wishlist' product.id %}" title="Add to wishlist" class="btn wishlist-btn">
+                        <form method="post" action="{% url 'add_to_wishlist' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  title="Add to wishlist" class="btn wishlist-btn">
                             <i class="fa-regular fa-heart"></i>
-                        </a>
+                        </button></form>
                     {% else %}
-                        <a href="{% url 'remove_from_wishlist' product.id %}" title="Remove from wishlist" class="btn wishlist-btn">
+                        <form method="post" action="{% url 'remove_from_wishlist' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  title="Remove from wishlist" class="btn wishlist-btn">
                             <i class="fa-solid fa-heart"></i>
-                        </a>
+                        </button></form>
                     {% endif %}
             {% endif %}
         </div>
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <a href="{% url 'delete_product' product.id %}" class="btn btn-primary">Yes</a>
+                                <form method="post" action="{% url 'delete_product' product.id %}" class="d-inline">{% csrf_token %}<button type="submit"  class="btn btn-primary">Yes</button></form>
                                 </div>
                             </div>
                             </div>
