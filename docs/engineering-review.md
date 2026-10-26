@@ -1,5 +1,7 @@
 # Engineering review
 
+This records the modernization review. Later manual Stripe sandbox verification is recorded in the [final acceptance pass](acceptance-pass.md).
+
 ## Baseline and confirmed findings
 
 The requested repository was clean when inspected. Its requirements pinned Django 3.2, Stripe 5.0.0, allauth 0.52.0 and Pillow 9.4.0. Python 3.12.3 was available; Django was not installed in the base environment. No applicable AGENTS.md was found in the repository or its accessible parent paths. The existing test files contained scaffolds. A working original deployment or original dependency environment was not available, so no baseline runtime pass is claimed.

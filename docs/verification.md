@@ -1,5 +1,7 @@
 # Local verification — 26 October 2026
 
+This records the initial automated verification. Later manual Stripe sandbox checkout and replay results are recorded in the [final acceptance pass](acceptance-pass.md).
+
 The final source was checked in the chat's writable verification copy using the isolated virtual environment created for the requested Nutshell project. Python was 3.12.3, Django 5.2.18 and PostgreSQL 17. The local Python patch should be updated before hosting.
 
 | Check | Observed result |
