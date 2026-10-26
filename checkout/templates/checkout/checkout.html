@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static product_tags %}
 {% block extra_title %}
   — Checkout
 {% endblock %}
@@ -163,7 +163,7 @@
           {% for item in bag_products %}
             <li>
               {% if item.product.image %}
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                <img src="{{ item.product|product_image_url }}" alt="{{ item.product.name }}">
               {% endif %}
               <span>
                 {{ item.product.name }}

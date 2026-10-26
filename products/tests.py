@@ -107,6 +107,35 @@ class ProductTests(TestCase):
         self.assertEqual(response.context['avg'], 0)
         self.assertEqual(response.context['average_rating'], 0)
 
+    def test_legacy_watermarked_images_are_replaced_across_storefront(self):
+        from django.templatetags.static import static
+        self.product.image = 'dry_fruits.jpg'
+        self.product.save()
+        image = static('media/catalogue/dried-fruit-mix.webp')
+        for url in (reverse('products'), reverse('product_detail', args=[self.product.pk])):
+            response = self.client.get(url)
+            self.assertContains(response, image)
+            self.assertNotContains(response, '/media/dry_fruits.jpg')
+        self.client.post(reverse('add_to_bag'), {'product_id': self.product.pk, 'quantity': 1})
+        for url in (reverse('bag'), reverse('checkout')):
+            response = self.client.get(url)
+            self.assertContains(response, image)
+            self.assertNotContains(response, '/media/dry_fruits.jpg')
+
+    def test_custom_product_image_keeps_configured_storage_url(self):
+        from .templatetags.product_tags import product_image_url
+        self.product.image = 'uploads/customer-selected-photo.jpg'
+        self.assertEqual(product_image_url(self.product), self.product.image.url)
+        self.product.image = ''
+        self.assertEqual(product_image_url(self.product), '')
+
+    def test_legacy_seed_alias_uses_generated_asset(self):
+        from .templatetags.product_tags import product_image_url
+        from django.templatetags.static import static
+        for name in ('seeds.jpg', 'seeds_EO8exKU.jpg'):
+            self.product.image = name
+            self.assertEqual(product_image_url(self.product), static('media/catalogue/seed-mix.webp'))
+
     def test_catalogue_search_sort_and_category_work_together(self):
         from .models import Category, Subcategory
         nuts = Category.objects.create(name='Nuts', slug='nuts')

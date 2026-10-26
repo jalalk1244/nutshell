@@ -27,10 +27,26 @@ The preview uses a separate demo database, test-only keys and an in-memory email
 
 Verification emails were saved through Django's local file-based backend in a Git-ignored directory. No real email was sent, and no passwords or confirmation links were included in this record. Temporary browser owner/product fixtures were removed. The acceptance account remains a normal customer.
 
-## Remaining acceptance steps
+## Step 3 — GitHub Actions: passed
 
-- Step 3: observe GitHub Actions passing after push — pending.
-- Step 4: review and replace watermarked product imagery — pending.
-- Step 5: verify deployment/storage if a public demo is desired — pending; public deployment requires explicit authorization.
+The remote `main` revision matched local commit `35478f88c150029ec049edfc7e700894ecbb1e5f`. GitHub's public Actions API reported the `Django checks` workflow completed successfully for that exact revision.
 
-Automatic order email delivery, guest order recovery and refunds/disputes remain documented project limitations.
+Verified run: [Django checks #40355672824](https://github.com/jalalk1244/nutshell/actions/runs/40355672824).
+
+The committed workflow runs on Ubuntu with Python 3.12 and PostgreSQL 17. It installs the pinned dependencies, checks dependency consistency, runs Django system checks, checks migration drift and runs the Django test suite. This is a hosted CI result, separate from earlier local test runs. Subsequent commits will trigger their own checks.
+
+## Step 4 — Watermarked storefront imagery: passed
+
+Two visibly watermarked stock photos were identified: the old dried-fruit image and the old seed image. New illustrative food images were generated using the built-in ImageGen tool, visually inspected, and packaged as WebP files. The final prompts, asset paths, dimensions and provenance are recorded in [image assets](image-assets.md).
+
+Homepage category tiles use the replacements directly. Catalogue/wishlist cards, product details, bag and checkout share a filename-specific URL filter. It replaces only identified legacy stock filenames and preserves custom upload/storage URLs and existing database records. No migration, media deletion, live storage upload or public deployment was performed.
+
+All 18 relevant product/home tests passed, including regressions for replacement URLs in the storefront and preservation of custom uploads. Local static collection succeeded. Isolated desktop/mobile browser checks confirmed both new assets decoded correctly across home, catalogue, product details, bag and checkout, with no known legacy watermark URLs in those views and no catalogue horizontal overflow. New filenames avoid stale-image caching.
+
+The hosted CI result above predates this image update. Push the completed image commit to trigger verification of the latest revision.
+
+## Optional remaining step
+
+Step 5: verify deployment/storage if a public demo is desired. It remains unstarted; public deployment requires explicit authorization.
+
+Automatic order email delivery, guest order recovery and refunds/disputes remain documented project limitations. Earlier artwork and historical screenshots are outside the scope of this two-image replacement pass.

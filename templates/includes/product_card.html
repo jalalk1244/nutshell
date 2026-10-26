@@ -1,8 +1,8 @@
-{% load static %}
+{% load static product_tags %}
 <article class="shop-card">
   <a class="shop-card-image" href="{% url 'product_detail' product.id %}">
     {% if product.image %}
-      <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+      <img src="{{ product|product_image_url }}" alt="{{ product.name }}" loading="lazy">
     {% else %}
       <div class="image-placeholder">
         <span aria-hidden="true">

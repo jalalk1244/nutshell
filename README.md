@@ -4,7 +4,7 @@ A Django e-commerce portfolio project for a nuts and dried-fruit store. It inclu
 
 ![Original responsive design](static/media/am-i-responsive.png)
 
-The storefront uses a warm botanical design with cream backgrounds, forest-green accents, editorial headings and responsive layouts. The S3 storage provider is retained. [Historical design notes, screenshots and credits](docs/legacy-readme.md) are preserved separately; their deployment and testing claims are historical. See the [UI refresh notes](docs/ui-refresh.md) for the latest presentation changes and verification.
+The storefront uses a warm botanical design with cream backgrounds, forest-green accents, editorial headings and responsive layouts. The S3 storage provider is retained. [Historical design notes, screenshots and credits](docs/legacy-readme.md) are preserved separately; their deployment and testing claims are historical. See the [UI refresh notes](docs/ui-refresh.md) for presentation changes and the [image provenance notes](docs/image-assets.md) for the generated replacements used instead of the two identified watermarked stock photos.
 
 ## Runtime and local setup
 

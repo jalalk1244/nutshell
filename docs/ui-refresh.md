@@ -1,6 +1,6 @@
 # Warm botanical UI refresh
 
-The storefront now uses cream, forest green, sage and a restrained terracotta accent, with serif headings and a shared set of spacing, colour and component styles in `static/css/base.css`. Existing product images are retained; catalogue photography remains dependent on the supplied media.
+The storefront now uses cream, forest green, sage and a restrained terracotta accent, with serif headings and a shared set of spacing, colour and component styles in `static/css/base.css`. Existing media records and custom uploads are retained. Two identified watermarked stock images are replaced in the live views by generated assets; see [image provenance](image-assets.md).
 
 Updated screens: home, catalogue, product details/reviews, wishlist, shopping bag, checkout, customer profile and order confirmation. The shared header/footer carry the style into existing authentication and product-management pages. No new payment or shopping feature was added.
 
