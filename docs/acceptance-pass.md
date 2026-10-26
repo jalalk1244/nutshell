@@ -16,9 +16,19 @@ Two bugs were resolved during this step: correcting delivery details on a retry 
 
 The preview uses a separate demo database, test-only keys and an in-memory email backend. No live charge or real email was sent. Local test credentials, CLI tools and diagnostic scripts remain Git-ignored.
 
+## Step 2 — Accounts and product management: passed
+
+- Signup and verification: the user created a dedicated acceptance account, followed its locally captured email link and confirmed the address. The database verified the email and associated profile existed.
+- Authentication/profile: the user signed in, opened the private profile, saved fictional delivery details and confirmed they persisted after refresh.
+- Wishlist: adding, persistence after refresh, removal and persistence of removal passed the user's browser walkthrough.
+- Customer permissions: the regular account was denied product management. Direct customer create/edit/delete requests returned 403, edit controls were hidden and product data stayed unchanged.
+- Owner creation/editing: temporary owner privileges were granted only to the acceptance account in the isolated demo database. The user created a temporary product and edited its name/price. The edit template initially submitted to the add endpoint and contained nested forms; both defects were fixed. A new regression test reproduced the routing failure before the fix, all 13 product tests passed afterward, and a separate browser fixture confirmed submission updated the same row without duplicates.
+- Owner deletion: the user deleted the temporary acceptance product. Its absence and restoration of the original product count were verified. The acceptance account's original customer permissions were restored afterward.
+
+Verification emails were saved through Django's local file-based backend in a Git-ignored directory. No real email was sent, and no passwords or confirmation links were included in this record. Temporary browser owner/product fixtures were removed. The acceptance account remains a normal customer.
+
 ## Remaining acceptance steps
 
-- Step 2: browser walkthrough of signup, login, profile, wishlist and owner product management — pending.
 - Step 3: observe GitHub Actions passing after push — pending.
 - Step 4: review and replace watermarked product imagery — pending.
 - Step 5: verify deployment/storage if a public demo is desired — pending; public deployment requires explicit authorization.
