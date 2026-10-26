@@ -86,6 +86,8 @@ Set `STRIPE_WH_SECRET` to that listener's signing secret and restart Django. Com
 
 Confirmation GETs have no business side effects. They do not clear the bag, save profile data, transfer ownership or send email. A paid order offers an explicit POST button to clear its purchased bag; it leaves a newer bag intact. Saved profile data is updated only from a validated, authenticated checkout POST when opted in. Failed payments offer a return to checkout. Unavailable payment services return a retryable customer message.
 
+Contact and delivery details can be corrected on a pending or failed checkout without creating another order or PaymentIntent. Corrections are validated and serialized with payment confirmation; they cannot alter ownership, the saved prices or a paid order's details.
+
 Orders created before this change are labelled `legacy` (unverified), rather than presumed paid. Their existing identities, ownership and totals remain intact. See [engineering review](docs/engineering-review.md) for migration details and tradeoffs.
 
 Legacy guest orders have no trusted session capability from the old flow and require operator assistance; migration does not make their references publicly accessible.

@@ -65,10 +65,23 @@ def cache_checkout_data(request):
         keys = request.session.get('guest_orders', [])
         if str(order.checkout_key) not in keys:
             request.session['guest_orders'] = keys + [str(order.checkout_key)]
-    if order.payment_status == 'paid':
-        return JsonResponse({'redirect': reverse('checkout_success', args=[order.order_number])})
-    if order.original_bag != bag or any(str(getattr(order, f)) != str(value) for f, value in form.cleaned_data.items()):
-        return JsonResponse({'error': 'Checkout details changed. Adjust your bag to start a new checkout.'}, status=409)
+    if order.original_bag != bag:
+        return JsonResponse({'error': 'Your bag changed. Reload checkout to review it.'}, status=409)
+    with transaction.atomic():
+        # Contact/delivery corrections do not alter the price snapshot or intent.
+        # Serialize with payment confirmation so paid orders cannot be edited.
+        order = Order.objects.select_for_update().get(pk=order.pk)
+        if order.payment_status == 'paid':
+            return JsonResponse({'redirect': reverse('checkout_success', args=[order.order_number])})
+        if order.payment_status not in ('pending', 'failed'):
+            return JsonResponse({'error': 'This order cannot be changed through checkout.'}, status=409)
+        changed = []
+        for field, value in form.cleaned_data.items():
+            if str(getattr(order, field)) != str(value):
+                setattr(order, field, value)
+                changed.append(field)
+        if changed:
+            order.save(update_fields=changed)
     if request.user.is_authenticated and 'save-info' in request.POST:
         data = {'default_' + f: value for f, value in form.cleaned_data.items() if f not in ('full_name', 'email')}
         profile_form = UserProfileForm(data, instance=request.user.userprofile)

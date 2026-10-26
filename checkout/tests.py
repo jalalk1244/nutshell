@@ -117,14 +117,60 @@ class CheckoutTests(TestCase):
             self.assertEqual(self.client.post(reverse('cache_checkout_data'), data).status_code, 200)
         self.assertEqual(Order.objects.count(), 1)
 
-    def test_changed_details_rejected_without_new_payment(self):
+    def test_corrected_details_reuse_order_and_existing_payment(self):
         order, data, _ = self.prepare()
         data['email'] = 'changed@example.invalid'
-        with patch('checkout.views.stripe.PaymentIntent.create') as create:
-            self.assertEqual(self.client.post(reverse('cache_checkout_data'), data).status_code, 409)
+        data['postcode'] = '12345'
+        with patch('checkout.views.stripe.PaymentIntent.create') as create, patch(
+                'checkout.views.stripe.PaymentIntent.retrieve',
+                return_value=SimpleNamespace(id='pi_test', client_secret='secret')) as retrieve:
+            self.assertEqual(self.client.post(reverse('cache_checkout_data'), data).status_code, 200)
         create.assert_not_called()
+        retrieve.assert_called_once_with('pi_test')
+        order.refresh_from_db()
+        self.assertEqual(order.email, 'changed@example.invalid')
+        self.assertEqual(order.postcode, '12345')
+        self.assertEqual(order.grand_total, Decimal('12.98'))
+        self.assertEqual(order.stripe_pid, 'pi_test')
+        self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(OrderLineItem.objects.count(), 1)
+
+    def test_paid_order_details_cannot_be_changed_by_retry(self):
+        order, data, _ = self.prepare()
+        Order.objects.filter(pk=order.pk).update(payment_status='paid')
+        data['email'] = 'changed@example.invalid'
+        with patch('checkout.views.stripe.PaymentIntent.create') as create, patch(
+                'checkout.views.stripe.PaymentIntent.retrieve') as retrieve:
+            response = self.client.post(reverse('cache_checkout_data'), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn('client_secret', response.json())
+        create.assert_not_called()
+        retrieve.assert_not_called()
         order.refresh_from_db()
         self.assertEqual(order.email, 'test@example.invalid')
+
+    def test_invalid_correction_preserves_existing_order(self):
+        order, data, _ = self.prepare()
+        data['email'] = 'invalid'
+        data['postcode'] = '12345'
+        with patch('checkout.views.stripe.PaymentIntent.retrieve') as retrieve:
+            self.assertEqual(self.client.post(reverse('cache_checkout_data'), data).status_code, 400)
+        retrieve.assert_not_called()
+        order.refresh_from_db()
+        self.assertEqual(order.email, 'test@example.invalid')
+        self.assertEqual(order.postcode, '10000')
+        self.assertEqual(Order.objects.count(), 1)
+
+    def test_corrected_details_after_connection_failure_reuse_saved_order(self):
+        data = self.start()
+        with patch('checkout.views.stripe.PaymentIntent.create', side_effect=stripe.APIConnectionError('test')):
+            self.assertEqual(self.client.post(reverse('cache_checkout_data'), data).status_code, 503)
+        data['postcode'] = '12345'
+        with patch('checkout.views.stripe.PaymentIntent.create', return_value=SimpleNamespace(id='pi_test', client_secret='secret')):
+            self.assertEqual(self.client.post(reverse('cache_checkout_data'), data).status_code, 200)
+        self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(OrderLineItem.objects.count(), 1)
+        self.assertEqual(Order.objects.get().postcode, '12345')
 
     def test_expired_checkout_rejected(self):
         data = self.start()
