@@ -32,6 +32,62 @@ python manage.py migrate
 
 Create categories and products in Django admin or use the owner product forms. The project does not ship customer data or a seeded production database. Superusers can manage products through storefront forms; ordinary customers and staff without superuser status cannot. Django admin additionally respects its own staff/model permissions.
 
+## Docker development environment
+
+Docker Compose runs Django and PostgreSQL 17 in separate containers. Install and
+start Docker Desktop with Linux containers, then run from the repository root:
+
+```sh
+docker compose up --build -d --wait
+docker compose exec web python manage.py createsuperuser
+```
+
+Open http://localhost:8001/ and add categories and products through `/admin/`.
+The container database starts empty; existing SQLite data is not imported.
+The image uses Python 3.12 and the pinned application dependencies, runs as a
+non-root user, and excludes local secrets and databases from the build context.
+PostgreSQL readiness gates Django startup; migrations run before the server.
+Named volumes persist database records and uploaded media across container restarts.
+The database has no published host port. The storefront binds to localhost only,
+on port 8001 to allow the original local server on port 8000 to keep running.
+
+For optional Stripe test keys or a different port, copy `.env.docker.example` to
+`.env.docker`, edit it privately, and use the same environment file for commands:
+
+```sh
+docker compose --env-file .env.docker up --build -d --wait
+docker compose --env-file .env.docker exec web python manage.py check
+```
+
+Compose supplies these variables to the container; Django itself does not load
+environment files. Leave Stripe keys empty to browse without payment setup.
+For payment testing, forward Stripe events to `localhost:8001/checkout/wh/`, set
+the listener's signing secret in `.env.docker`, and recreate the web service.
+Email verification links appear in `docker compose logs web`; keep them private.
+
+Useful checks and lifecycle commands:
+
+```sh
+docker compose exec web python manage.py check
+docker compose exec web python manage.py makemigrations --check --dry-run
+docker compose exec web python manage.py test --settings=nutshell.test_settings --noinput
+docker compose ps
+docker compose stop
+docker compose start
+docker compose down
+```
+
+`down` keeps the named volumes. `down --volumes` permanently removes this Docker
+database and uploaded media. Rebuild the image after source/dependency changes.
+This is a local development setup using Django's development server and local-only
+default credentials; public hosting still requires the production configuration below.
+
+Verified locally with Docker Desktop 4.97.0: the image builds, both services become
+healthy, Django checks and migration checks pass, and all 71 tests pass against
+containerized PostgreSQL. Database and media probes survived container recreation
+and were removed afterward. Homepage, catalogue and bag returned HTTP 200. Stripe
+is mocked in the automated suite; container-specific live payment testing is not claimed.
+
 ## Configuration
 
 [.env.example](.env.example) lists variable names and safe placeholders. It is a reference: Django does not automatically load `.env`. Set variables in your shell or deployment environment. A legacy, untracked `env.py` is still supported but should not be committed.

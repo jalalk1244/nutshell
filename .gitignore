@@ -16,3 +16,4 @@ postgres-test.log
 modernize.py
 verify_nutshell.py
 .review/
+.env.docker
